@@ -1,16 +1,15 @@
 package com.cg.busbooking.controller;
 
 import com.cg.busbooking.dto.response.AgencyOfficeResponseDto;
+import com.cg.busbooking.dto.response.BusResponseDto;
 import com.cg.busbooking.dto.response.CustomerResponseDto;
 import com.cg.busbooking.service.AgencyService;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -40,5 +39,14 @@ public class AgencyController {
                 .map(o->modelMapper.map(o,AgencyOfficeResponseDto.class))
                 .toList();
         return new ResponseEntity<>(offices, HttpStatus.OK);
+    }
+
+    @GetMapping("{agencyId}/buses/")
+    public ResponseEntity<List<BusResponseDto>> getBusesOfAgencyByDate(@PathVariable Integer agencyId, @RequestParam LocalDateTime tripDate) {
+        List<BusResponseDto> buses=agencyService.getBusByAgencyIdAndDate(agencyId,tripDate)
+                .stream()
+                .map(bus-> modelMapper.map(bus,BusResponseDto.class))
+                .toList();
+        return new ResponseEntity<>(buses, HttpStatus.OK);
     }
 }
