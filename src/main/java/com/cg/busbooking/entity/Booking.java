@@ -1,6 +1,8 @@
 package com.cg.busbooking.entity;
 
 import com.cg.busbooking.enums.Status;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,6 +11,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name="bookings")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,5 +24,6 @@ public class Booking {
 
     @ManyToOne
     @JoinColumn(name = "trip_id")
+    @JsonIgnore
     private Trip trip;
 }
