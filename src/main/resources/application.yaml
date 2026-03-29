@@ -1,20 +1,3 @@
-#spring:
-#  application:
-#    name: bus-ticket-booking
-#  datasource:
-#    url: jdbc:mysql://10.10.182.198:3306/busticketbooking
-#    username: aditi
-#    password: Root@1234
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#
-#  jpa:
-#    hibernate:
-#      ddl-auto: update
-#    show-sql: true
-#
-#server:
-#  port: 8082
-
 spring:
   application:
     name: bus-ticket-booking
@@ -28,15 +11,17 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
-      ddl-auto: none   # IMPORTANT: because you are using data.sql
+      ddl-auto: create   # ✅ create tables automatically
     show-sql: true
     properties:
       hibernate:
         format_sql: true
 
+    defer-datasource-initialization: true   # ✅ VERY IMPORTANT (fixes your error)
+
   sql:
     init:
-      mode: always     # ensures data.sql runs
+      mode: always
 
   h2:
     console:

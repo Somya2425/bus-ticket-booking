@@ -1,6 +1,7 @@
 package com.cg.busbooking.controller;
 
 import com.cg.busbooking.dto.response.BusResponseDto;
+import com.cg.busbooking.dto.response.DriverResponseDto;
 import com.cg.busbooking.service.AgencyOfficeService;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
@@ -32,5 +33,17 @@ public class AgencyOfficeController {
                 agencyOfficeService.getBusesByOfficeId(officeId);
 
         return ResponseEntity.ok(buses); // cleaner
+    }
+
+    @GetMapping("/drivers")
+    public ResponseEntity<List<DriverResponseDto>> getDriversByOfficeId(
+            @RequestParam
+            @Min(value = 1, message = "Office ID must be greater than 0")
+            Integer officeId
+    ) {
+        List<DriverResponseDto> drivers =
+                agencyOfficeService.getDriversByOfficeId(officeId);
+
+        return ResponseEntity.ok(drivers);
     }
 }
