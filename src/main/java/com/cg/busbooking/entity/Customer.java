@@ -25,4 +25,5 @@ public class Customer {
     @JoinColumn(name = "address_id")
     @JsonIgnore
     private Address address;
+
 }

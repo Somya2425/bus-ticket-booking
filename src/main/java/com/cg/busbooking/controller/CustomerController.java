@@ -1,5 +1,7 @@
 package com.cg.busbooking.controller;
 
+import com.cg.busbooking.dto.response.BookingResponseDto;
+import com.cg.busbooking.dto.response.CustomerResponseDto;
 import com.cg.busbooking.entity.Booking;
 import com.cg.busbooking.entity.Customer;
 import com.cg.busbooking.service.CustomerService;
@@ -18,9 +20,9 @@ public class CustomerController {
     @Autowired
     private CustomerService customerService;
 
-    // 1️⃣ Get customer by name & address
+    // 1 Get customer by name & address
     @GetMapping("/customer/{name}/{address}")
-    public ResponseEntity<List<Customer>> getCustomerByNameAndAddress(
+    public ResponseEntity<List<CustomerResponseDto>> getCustomerByNameAndAddress(
             @PathVariable String name,
             @PathVariable String address) {
 
@@ -30,7 +32,7 @@ public class CustomerController {
     }
 
     @GetMapping("/customer/{customerId}/bookings")
-    public ResponseEntity<List<Booking>> getCustomerBookings(
+    public ResponseEntity<List<BookingResponseDto>> getCustomerBookings(
             @PathVariable Integer customerId) {
 
         return ResponseEntity.ok(
@@ -39,7 +41,7 @@ public class CustomerController {
     }
 
     @GetMapping("/agency/{agencyId}/customers")
-    public ResponseEntity<List<Customer>> getCustomersByAgency(
+    public ResponseEntity<List<CustomerResponseDto>> getCustomersByAgency(
             @PathVariable Integer agencyId) {
 
         return ResponseEntity.ok(
