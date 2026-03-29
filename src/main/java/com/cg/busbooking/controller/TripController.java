@@ -1,6 +1,7 @@
 package com.cg.busbooking.controller;
 
 import com.cg.busbooking.dto.response.AvailableSeatsResponseDto;
+import com.cg.busbooking.dto.response.TripResponse;
 import com.cg.busbooking.service.TripService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -10,9 +11,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.function.EntityResponse;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/trip")
+@RequestMapping("/trips")
 public class TripController {
   private final TripService tripService;
 
@@ -20,5 +23,7 @@ public class TripController {
   public ResponseEntity<AvailableSeatsResponseDto> getAvailableSeats(@RequestParam Integer tripId){
       return ResponseEntity.ok(tripService.getAvailableSeatsForTrip(tripId));
   }
+
+  public ResponseEntity<List<TripResponse>> searchTrips()
 
 }
