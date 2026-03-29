@@ -2,11 +2,11 @@ package com.cg.busbooking.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
-@RequiredArgsConstructor
+@NoArgsConstructor
 public class BusResponseDto {
     private Integer busId;
     private String type;

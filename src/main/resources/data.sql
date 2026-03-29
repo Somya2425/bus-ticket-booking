@@ -138,3 +138,12 @@ VALUES (1,1,1,2,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,1,1,50,500.00,CURRENT_DATE);
 
 INSERT INTO bookings (trip_id, seat_number, status) VALUES
     (1,1,'Booked');
+INSERT INTO agency_offices
+(agency_id, office_mail, office_contact_person_name, office_contact_number, office_address_id)
+VALUES
+    (1, 'nobus@test.com', 'NoBus Manager', '9999999999', 1);
+
+INSERT INTO buses (office_id, registration_number, capacity, type) VALUES
+                                                                       (1, 'DL99TEST001', 50, 'AC'),
+                                                                       (1, 'DL99TEST002', 45, 'NON-AC');
+
