@@ -40,7 +40,12 @@ public class CustomerServiceImpl implements CustomerService {
             BookingResponseDto dto = new BookingResponseDto();
             dto.setBookingId(b.getBookingId());
             dto.setSeatNumber(b.getSeatNumber());
-            dto.setStatus(b.getStatus().name());
+            if (b.getStatus() != null) {
+                dto.setStatus(b.getStatus().toString());
+            } else {
+                dto.setStatus("UNKNOWN");
+            }
+
             return dto;
         }).toList();
     }
