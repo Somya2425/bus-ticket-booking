@@ -32,7 +32,7 @@ public class AgencyOfficeController {
         List<BusResponseDto> buses =
                 agencyOfficeService.getBusesByOfficeId(officeId);
 
-        return ResponseEntity.ok(buses); // cleaner
+        return ResponseEntity.ok(buses);
     }
 
     @GetMapping("/drivers")
