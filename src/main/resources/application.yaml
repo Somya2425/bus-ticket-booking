@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: bus-ticket-booking
+  datasource:
+    url: jdbc:mysql://10.10.182.198:3306/busticketbooking
+    username: somya
+    password: ABCDEFGH
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+server:
+  port: 8082
