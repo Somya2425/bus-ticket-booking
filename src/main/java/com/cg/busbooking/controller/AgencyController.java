@@ -41,7 +41,7 @@ public class AgencyController {
         return new ResponseEntity<>(offices, HttpStatus.OK);
     }
 
-    @GetMapping("{agencyId}/buses/")
+    @GetMapping("{agencyId}/buses")
     public ResponseEntity<List<BusResponseDto>> getBusesOfAgencyByDate(@PathVariable Integer agencyId, @RequestParam LocalDateTime tripDate) {
         List<BusResponseDto> buses=agencyService.getBusByAgencyIdAndDate(agencyId,tripDate)
                 .stream()
