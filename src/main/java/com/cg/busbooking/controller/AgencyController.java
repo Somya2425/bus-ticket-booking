@@ -23,7 +23,7 @@ public class AgencyController {
         this.agencyService = agencyService;
     }
 
-    @GetMapping("{agencyId}")
+    @GetMapping("{agencyId}/customers")
     public ResponseEntity<List<CustomerResponseDto>> getCustomersOfAgency(@PathVariable Integer agencyId) {
         List<CustomerResponseDto> customers = agencyService.getCustomersByAgencyId(agencyId)
                 .stream()
