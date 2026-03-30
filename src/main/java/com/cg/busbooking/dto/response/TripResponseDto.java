@@ -1,8 +1,12 @@
 package com.cg.busbooking.dto.response;
 
-import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
-public class TripResponse {
+import java.time.LocalDateTime;
+@Data
+@AllArgsConstructor
+public class TripResponseDto {
     private Integer tripId;
     private Integer routeId;
     private Integer busId;
