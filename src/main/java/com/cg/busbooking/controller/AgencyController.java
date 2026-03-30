@@ -22,16 +22,7 @@ public class AgencyController {
         this.modelMapper = modelMapper;
         this.agencyService = agencyService;
     }
-
-    @GetMapping("{agencyId}/customers")
-    public ResponseEntity<List<CustomerResponseDto>> getCustomersOfAgency(@PathVariable Integer agencyId) {
-        List<CustomerResponseDto> customers = agencyService.getCustomersByAgencyId(agencyId)
-                .stream()
-                .map(c -> modelMapper.map(c, CustomerResponseDto.class))
-                .toList();
-        return new ResponseEntity<>(customers, HttpStatus.OK);
-    }
-
+    
     @GetMapping("{agencyId}/offices")
     public ResponseEntity<List<AgencyOfficeResponseDto>> getOfficesOfAgency(@PathVariable Integer agencyId) {
         List<AgencyOfficeResponseDto> offices=agencyService.getOfficesByAgencyId(agencyId)
