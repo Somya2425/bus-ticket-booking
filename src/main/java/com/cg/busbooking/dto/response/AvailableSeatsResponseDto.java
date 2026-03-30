@@ -9,13 +9,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class AvailableSeatsResponseDto {
     Integer tripId;
     Integer availableSeats;
-
-
-
-
-
+    long bookedSeatsCount;
 }

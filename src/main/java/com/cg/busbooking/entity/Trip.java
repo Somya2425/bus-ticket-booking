@@ -1,6 +1,5 @@
 package com.cg.busbooking.entity;
 
-import com.cg.busbooking.controller.TripController;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -44,6 +43,4 @@ public class Trip {
     @ManyToOne
     @JoinColumn(name = "driver2_driver_id")
     private Driver driver2;
-
-
 }
