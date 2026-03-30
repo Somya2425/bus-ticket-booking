@@ -14,4 +14,27 @@ import java.util.List;
 @RestController
 @RequestMapping("api/route")
 public class RouteController {
+    private final RouteService routeService;
+    private final ModelMapper modelMapper;
+    public RouteController(RouteService routeService, ModelMapper modelMapper){
+        this.modelMapper=modelMapper;
+        this.routeService=routeService;
+    }
+    @GetMapping("/search")   //-----based on breakpoints
+    public ResponseEntity<List<RouteResponseDto>> getRouteBetweenCities(@RequestParam("source")String fromCity, @RequestParam("destination")String toCity){
+        List<RouteResponseDto> routes = routeService.getRouteBetweenCities(fromCity,toCity)
+                .stream()
+                .map(r-> modelMapper.map(r,RouteResponseDto.class))
+                .toList();
+        return new ResponseEntity<>(routes, HttpStatus.OK);
+    }
+
+    @GetMapping("/popular")
+    public ResponseEntity<List<RouteResponseDto>> getPopularRoutes(@RequestParam(defaultValue = "1") Integer limit) {
+        List<RouteResponseDto> routes = routeService.getMostPopularRoutes(limit)
+                .stream()
+                .map(r -> modelMapper.map(r, RouteResponseDto.class))
+                .toList();
+        return new ResponseEntity<>(routes, HttpStatus.OK);
+    }
 }
