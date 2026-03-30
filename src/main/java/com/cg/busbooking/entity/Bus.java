@@ -5,11 +5,12 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
 @Entity
 @Table(name = "buses")
+@Getter
+@Setter
 public class Bus {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer busId;

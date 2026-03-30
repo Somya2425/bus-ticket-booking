@@ -20,4 +20,5 @@ public interface BusRepository extends JpaRepository<Bus,Integer> {
         AND t.tripDate = :tripDate
     """)
     List<Bus> findBusesByAgencyIdAndDate(@Param("agencyId") Integer agencyId, @Param("tripDate") LocalDateTime tripDate);
+    List<Bus> findByOffice_OfficeId(Integer officeId);
 }
