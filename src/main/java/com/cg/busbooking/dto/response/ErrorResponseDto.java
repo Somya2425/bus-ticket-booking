@@ -8,11 +8,9 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 @Data
-
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class ErrorResponseDto {
     private String apiPath;
     private HttpStatus errorCode;
@@ -23,4 +21,7 @@ public class ErrorResponseDto {
     private String message;
     private Object errors;
     private LocalDateTime timestamp;
+
+    public ErrorResponseDto(String description, HttpStatus httpStatus, String message, LocalDateTime now) {
+    }
 }
