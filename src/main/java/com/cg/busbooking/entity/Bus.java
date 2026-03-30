@@ -1,5 +1,6 @@
 package com.cg.busbooking.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,5 +21,6 @@ public class Bus {
 
     @ManyToOne
     @JoinColumn(name = "office_id")
+    @JsonIgnore
     private AgencyOffice office;
 }

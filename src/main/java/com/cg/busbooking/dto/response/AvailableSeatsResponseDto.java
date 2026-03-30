@@ -9,13 +9,13 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class AvailableSeatsResponseDto {
     Integer tripId;
     Integer availableSeats;
+    long bookedSeatsCount;
 
-
-
-
-
+    public AvailableSeatsResponseDto(Integer tripId, Integer availableSeats) {
+        this.tripId = tripId;
+        this.availableSeats = availableSeats;
+    }
 }

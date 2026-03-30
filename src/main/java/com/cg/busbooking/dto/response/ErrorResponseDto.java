@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class ErrorResponseDto {
     private String apiPath;
     private HttpStatus errorCode;
