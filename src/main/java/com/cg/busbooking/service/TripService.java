@@ -9,4 +9,5 @@ public interface TripService {
     AvailableSeatsResponseDto getAvailableSeatsForTrip(Integer tripId);
 
 
+    List<TripResponseDto> getTripBySourceAndDestination(String source, String destination);
 }

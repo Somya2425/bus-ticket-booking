@@ -29,6 +29,12 @@ public class TripController {
               .body(new ApiResponseDto(TripConstants.STATUS_200,TripConstants.MESSAGE_200,availableSeatsResponseDto));
   }
 
+  @GetMapping("/search")
+  public ResponseEntity<ApiResponseDto> searchTrips(@RequestParam String source, @RequestParam String destination){
+    List<TripResponseDto> tripResponseDto = tripService.getTripBySourceAndDestination(source,destination);
+    return ResponseEntity.status(HttpStatus.OK)
+            .body(new ApiResponseDto(TripConstants.STATUS_200,TripConstants.MESSAGE_200,tripResponseDto));
+  }
 
 
 
