@@ -1,4 +1,47 @@
 package com.cg.busbooking.service.impl;
 
-public class TripServiceImpl {
+import com.cg.busbooking.constants.TripConstants;
+import com.cg.busbooking.dto.response.AvailableSeatsResponseDto;
+import com.cg.busbooking.dto.response.TripResponseDto;
+import com.cg.busbooking.entity.Booking;
+import com.cg.busbooking.entity.Route;
+import com.cg.busbooking.entity.Trip;
+import com.cg.busbooking.enums.Status;
+import com.cg.busbooking.exception.ResourceNotFoundException;
+import com.cg.busbooking.repository.BookingRepository;
+import com.cg.busbooking.repository.RouteRepository;
+import com.cg.busbooking.repository.TripRepository;
+import com.cg.busbooking.service.TripService;
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+@RequiredArgsConstructor
+public class TripServiceImpl implements TripService {
+    private final TripRepository tripRepository;
+    private final RouteRepository routeRepository;
+
+    private final ModelMapper modelMapper;
+
+    @Override
+    public AvailableSeatsResponseDto getAvailableSeatsForTrip(Integer tripId) {
+        Trip trip = tripRepository.findById(tripId)
+                .orElseThrow(()-> new ResourceNotFoundException(TripConstants.TRIP_NOT_FOUND));
+        Integer availableSeats = trip.getAvailableSeats();
+        return new AvailableSeatsResponseDto(tripId,availableSeats);
+
+    }
+
+    @Override
+    public List<TripResponseDto> getTripBySourceAndDestination(String source, String destination) {
+
+       List<Trip> trips = tripRepository.findByRoute_FromCityIgnoreCaseAndRoute_ToCityIgnoreCase(source, destination);
+       return trips.stream()
+               .map(trip -> modelMapper.map(trip,TripResponseDto.class))
+               .toList();
+    }
 }

@@ -1,8 +1,11 @@
 package com.cg.busbooking.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 @Entity
 @Table(name="agency_offices")
@@ -18,9 +21,11 @@ public class AgencyOffice {
 
     @ManyToOne
     @JoinColumn(name = "agency_id")
+    @JsonIgnore
     private Agency agency;
 
     @ManyToOne
     @JoinColumn(name = "office_address_id")
+    @JsonIgnore
     private Address address;
 }

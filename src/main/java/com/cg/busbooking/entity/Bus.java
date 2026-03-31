@@ -1,14 +1,16 @@
 package com.cg.busbooking.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
 @Entity
 @Table(name = "buses")
+@Getter
+@Setter
 public class Bus {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer busId;
@@ -19,5 +21,6 @@ public class Bus {
 
     @ManyToOne
     @JoinColumn(name = "office_id")
+    @JsonIgnore
     private AgencyOffice office;
 }
