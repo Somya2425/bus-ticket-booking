@@ -1,5 +1,6 @@
 package com.cg.busbooking.controller;
 
+import com.cg.busbooking.dto.response.CityTrafficResponseDto;
 import com.cg.busbooking.dto.response.RouteResponseDto;
 import com.cg.busbooking.service.RouteService;
 import org.modelmapper.ModelMapper;
@@ -36,5 +37,11 @@ public class RouteController {
                 .map(r -> modelMapper.map(r, RouteResponseDto.class))
                 .toList();
         return new ResponseEntity<>(routes, HttpStatus.OK);
+    }
+
+    @GetMapping("/traffic")
+    public ResponseEntity<List<CityTrafficResponseDto>> getCityTraffic( @RequestParam(defaultValue = "1") Integer limit) {
+        List<CityTrafficResponseDto> cities= routeService.getTopCitiesByTraffic(limit);
+        return new ResponseEntity<>(cities, HttpStatus.OK);
     }
 }
