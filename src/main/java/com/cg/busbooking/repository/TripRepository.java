@@ -19,4 +19,6 @@ public interface TripRepository extends JpaRepository<Trip, Integer> {
     """)
     List<Route> findMostPopularRoutes(Pageable pageable);
 
+    List<Trip> findByRoute_FromCityIgnoreCaseAndRoute_ToCityIgnoreCase(String source, String destination);
+
 }
