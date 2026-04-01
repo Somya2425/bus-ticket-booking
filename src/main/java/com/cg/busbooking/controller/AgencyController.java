@@ -3,6 +3,7 @@ package com.cg.busbooking.controller;
 import com.cg.busbooking.dto.response.AgencyOfficeResponseDto;
 import com.cg.busbooking.dto.response.AgencyRevenueDto;
 import com.cg.busbooking.dto.response.BusResponseDto;
+import com.cg.busbooking.dto.response.CustomerResponseDto;
 import com.cg.busbooking.service.AgencyService;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.Max;
@@ -27,6 +28,19 @@ public class AgencyController {
     public AgencyController(AgencyService agencyService, ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
         this.agencyService = agencyService;
+    }
+
+    @GetMapping("{agencyId}/customers")
+    public ResponseEntity<List<CustomerResponseDto>> getCustomersOfAgency(@PathVariable
+              @NotNull(message = "Agency Id cannot be null")
+              @Min(value = 0,message = "Agency Id must be positive")
+              @Max(value = Integer.MAX_VALUE,message = "Agency Id must be less than "+ Integer.MAX_VALUE)
+              Integer agencyId) {
+        List<CustomerResponseDto> customers = agencyService.getCustomersByAgencyId(agencyId)
+                .stream()
+                .map(c -> modelMapper.map(c, CustomerResponseDto.class))
+                .toList();
+        return new ResponseEntity<>(customers, HttpStatus.OK);
     }
 
     @GetMapping("{agencyId}/offices")
