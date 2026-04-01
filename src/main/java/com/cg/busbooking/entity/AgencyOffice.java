@@ -20,7 +20,6 @@ public class AgencyOffice {
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "agency_id")
-    @JsonIgnore
     private Agency agency;
 
     @ManyToOne
