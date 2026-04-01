@@ -29,16 +29,11 @@ public class AgencyOfficeServiceImpl implements AgencyOfficeService {
     @Override
     public List<OfficeBusResponseDto> getBusesByOfficeId(Integer officeId) {
 
-        //Check if office exists
         AgencyOffice office = agencyOfficeRepository.findById(officeId)
                 .orElseThrow(() -> new ResourceNotFoundException(
                         AgencyOfficeConstants.OFFICE_NOT_FOUND + officeId
                 ));
-
-        //Fetch buses
         List<Bus> buses = busRepository.findByOffice_OfficeId(officeId);
-
-        //Map to DTO
         return buses.stream()
                 .map(bus -> modelMapper.map(bus, OfficeBusResponseDto.class))
                 .toList();
@@ -46,17 +41,11 @@ public class AgencyOfficeServiceImpl implements AgencyOfficeService {
 
     @Override
     public List<OfficeDriverResponseDto> getDriversByOfficeId(Integer officeId) {
-
-        // 1. Check if office exists
         AgencyOffice office = agencyOfficeRepository.findById(officeId)
                 .orElseThrow(() -> new ResourceNotFoundException(
                         AgencyOfficeConstants.OFFICE_NOT_FOUND + officeId
                 ));
-
-        // 2. Fetch drivers
         List<Driver> drivers = driverRepository.findByOffice_OfficeId(officeId);
-
-        // 3. Map to DTO using ModelMapper
         return drivers.stream()
                 .map(driver -> modelMapper.map(driver, OfficeDriverResponseDto.class))
                 .toList();

@@ -1,4 +1,5 @@
 package com.cg.busbooking.service.impl;
+import com.cg.busbooking.constants.RouteConstants;
 import com.cg.busbooking.dto.response.CityTrafficResponseDto;
 import com.cg.busbooking.entity.Route;
 import com.cg.busbooking.exception.ResourceNotFoundException;
@@ -35,7 +36,7 @@ public class RouteServiceImpl implements RouteService {
     public List<Route> getMostPopularRoute() {
         List<Route> routes = bookingRepository.findMostPopularRoutes();
         if (routes.isEmpty()) {
-            throw new RuntimeException("No bookings found");
+            throw new ResourceNotFoundException(RouteConstants.BOOKINGS_NOT_FOUND);
         }
         return routes;
     }

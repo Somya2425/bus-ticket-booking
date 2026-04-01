@@ -1,5 +1,5 @@
 package com.cg.busbooking.service;
-import com.cg.busbooking.dto.response.CityTrafficResponseDto;
+
 import com.cg.busbooking.entity.Route;
 
 import java.util.List;

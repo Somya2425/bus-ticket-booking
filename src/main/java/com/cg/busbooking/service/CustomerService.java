@@ -2,8 +2,6 @@ package com.cg.busbooking.service;
 
 import com.cg.busbooking.dto.response.BookingResponseDto;
 import com.cg.busbooking.dto.response.CustomerResponseDto;
-import com.cg.busbooking.entity.Booking;
-import com.cg.busbooking.entity.Customer;
 
 import java.util.List;
 

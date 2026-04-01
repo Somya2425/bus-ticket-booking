@@ -2,8 +2,6 @@ package com.cg.busbooking.controller;
 
 import com.cg.busbooking.dto.response.BookingResponseDto;
 import com.cg.busbooking.dto.response.CustomerResponseDto;
-import com.cg.busbooking.entity.Booking;
-import com.cg.busbooking.entity.Customer;
 import com.cg.busbooking.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,12 +13,13 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/customer/")
 public class CustomerController {
-    @Autowired
-    private CustomerService customerService;
+    private final CustomerService customerService;
+    public CustomerController(CustomerService customerService) {
+        this.customerService = customerService;
+    }
 
-    // 1 Get customer by name & address
     @GetMapping("/customer/{name}/{address}")
     public ResponseEntity<List<CustomerResponseDto>> getCustomerByNameAndAddress(
             @PathVariable String name,
@@ -40,12 +39,4 @@ public class CustomerController {
         );
     }
 
-    @GetMapping("/agency/{agencyId}/customers")
-    public ResponseEntity<List<CustomerResponseDto>> getCustomersByAgency(
-            @PathVariable Integer agencyId) {
-
-        return ResponseEntity.ok(
-                customerService.getCustomersByAgency(agencyId)
-        );
-    }
 }

@@ -22,7 +22,7 @@ public class AgencyOfficeController {
 
     private final AgencyOfficeService agencyOfficeService;
 
-    // GET /api/offices/buses?officeId=1
+
     @GetMapping("/buses")
     public ResponseEntity<List<OfficeBusResponseDto>> getBusesByOfficeId(
             @RequestParam

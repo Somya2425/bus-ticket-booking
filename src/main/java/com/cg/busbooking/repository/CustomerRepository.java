@@ -18,7 +18,7 @@ public interface CustomerRepository extends JpaRepository<Customer,Integer> {
        JOIN t.bus bs
        JOIN bs.office ao
        WHERE ao.agency.agencyId = :agencyId
-        """)
+       """)
     List<Customer> findCustomerByAgencyId(Integer agencyId);
     @Query("SELECT c FROM Customer c JOIN c.address a " +
             "WHERE c.name = :name AND a.address = :address")

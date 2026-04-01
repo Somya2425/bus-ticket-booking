@@ -1,6 +1,5 @@
 package com.cg.busbooking.controller;
 
-import com.cg.busbooking.dto.response.CityTrafficResponseDto;
 import com.cg.busbooking.dto.response.RouteResponseDto;
 import com.cg.busbooking.entity.Route;
 import com.cg.busbooking.service.RouteService;
@@ -22,7 +21,7 @@ public class RouteController {
         this.routeService = routeService;
     }
 
-    @GetMapping("/search")   //-----based on breakpoints
+    @GetMapping("/search")
     public ResponseEntity<List<RouteResponseDto>> getRouteBetweenCities(@RequestParam("source") String fromCity, @RequestParam("destination") String toCity) {
         List<RouteResponseDto> routes = routeService.getRouteBetweenCities(fromCity, toCity)
                 .stream()
