@@ -5,7 +5,7 @@ import com.cg.busbooking.entity.Agency;
 import com.cg.busbooking.entity.AgencyOffice;
 import com.cg.busbooking.entity.Bus;
 import com.cg.busbooking.entity.Customer;
-import com.cg.busbooking.exception.agency.AgencyNotFoundException;
+import com.cg.busbooking.exception.ResourceNotFoundException;
 import com.cg.busbooking.repository.*;
 import com.cg.busbooking.service.AgencyService;
 import org.springframework.stereotype.Service;
@@ -34,7 +34,7 @@ public class AgencyServiceImpl implements AgencyService {
     public List<Customer> getCustomersByAgencyId(Integer agencyId) {
         Optional<Agency> op = agencyRepository.findById(agencyId);
         if(!op.isPresent()) {
-          throw new AgencyNotFoundException("Agency not found");
+          throw new ResourceNotFoundException("Agency not found for agencyId: " + agencyId);
         }
         return customerRepository.findCustomerByAgencyId(agencyId);
     }
@@ -43,7 +43,7 @@ public class AgencyServiceImpl implements AgencyService {
     public List<AgencyOffice> getOfficesByAgencyId(Integer id) {
         Optional<Agency> op = agencyRepository.findById(id);
         if(!op.isPresent()) {
-            throw new AgencyNotFoundException("Agency not found");
+            throw new ResourceNotFoundException("Agency not found for agencyId: " + id);
         }
         return agencyOfficeRepository.findByAgencyId(id);
     }
@@ -52,7 +52,7 @@ public class AgencyServiceImpl implements AgencyService {
     public List<Bus> getBusByAgencyIdAndDate(Integer agencyId, LocalDateTime tripDate) {
         Optional<Agency> op = agencyRepository.findById(agencyId);
         if(!op.isPresent()) {
-            throw new AgencyNotFoundException("Agency not found");
+            throw new ResourceNotFoundException("Agency not found for agencyId: " + agencyId);
         }
         return busRepository.findBusesByAgencyIdAndDate(agencyId, tripDate);
     }
@@ -61,7 +61,7 @@ public class AgencyServiceImpl implements AgencyService {
     public AgencyRevenueDto getAgencyRevenueByAgencyId(Integer agencyId) {
         Optional<Agency> op = agencyRepository.findById(agencyId);
         if(!op.isPresent()) {
-            throw new AgencyNotFoundException("Agency not found");
+            throw new ResourceNotFoundException("Agency not found for agencyId: " + agencyId);
         }
         AgencyRevenueDto revenueDto = new AgencyRevenueDto();
         revenueDto.setAgencyName(op.get().getName());

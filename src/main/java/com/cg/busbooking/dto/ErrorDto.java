@@ -1,21 +1,19 @@
-package com.cg.busbooking.dto.response;
+package com.cg.busbooking.dto;
 
+import com.cg.busbooking.dto.response.ErrorResponseDto;
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import org.springframework.http.HttpStatus;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ErrorResponseDto {
-
-    private String path;
-    private int status;
-    private Object error;
+public class ErrorDto extends ErrorResponseDto {
     private String message;
     private LocalDateTime timestamp;
+    private String path;
 }

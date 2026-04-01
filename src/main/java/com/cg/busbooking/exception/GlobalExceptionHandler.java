@@ -1,6 +1,9 @@
 package com.cg.busbooking.exception;
 
+import com.cg.busbooking.dto.ErrorDto;
 import com.cg.busbooking.dto.response.ErrorResponseDto;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.time.LocalDateTime;
@@ -21,7 +23,6 @@ public class GlobalExceptionHandler {
     private static final Logger log =
             LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
-    // Common builder (updated according to new DTO)
     private ResponseEntity<ErrorResponseDto> buildErrorResponse(
             String path,
             String message,
@@ -35,103 +36,92 @@ public class GlobalExceptionHandler {
                 message,
                 LocalDateTime.now()
         );
+        error.setError(errors);
 
         return new ResponseEntity<>(error, status);
     }
 
-    // Resource Not Found
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ErrorResponseDto> handleResourceNotFoundException(
             ResourceNotFoundException ex,
-            WebRequest request) {
-
-        String path = request.getDescription(false).replace("uri=", "");
-
+            HttpServletRequest request) {
         log.warn("Resource not found: {}", ex.getMessage());
-
-        return buildErrorResponse(path, ex.getMessage(), null, HttpStatus.NOT_FOUND);
+        return buildErrorResponse(request.getRequestURI(), ex.getMessage(), Collections.emptyMap(), HttpStatus.NOT_FOUND);
     }
 
-    // Route Not Found
     @ExceptionHandler(RouteNotFoundException.class)
     public ResponseEntity<ErrorResponseDto> handleRouteNotFound(
             RouteNotFoundException ex,
-            WebRequest request) {
-
-        String path = request.getDescription(false).replace("uri=", "");
-
+            HttpServletRequest request) {
         log.warn("Route not found: {}", ex.getMessage());
-
-        return buildErrorResponse(path, ex.getMessage(), null, HttpStatus.NOT_FOUND);
+        return buildErrorResponse(request.getRequestURI(), ex.getMessage(), Collections.emptyMap(), HttpStatus.NOT_FOUND);
     }
 
-    // Validation Errors
+    private String extractFieldName(String path) {
+        return path.substring(path.lastIndexOf(".") + 1);
+    }
+
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<ErrorResponseDto> handleValidation(
             ConstraintViolationException ex,
-            WebRequest request) {
-
-        String path = request.getDescription(false).replace("uri=", "");
-
-        Map<String, List<String>> errors = new HashMap<>();
-
-        ex.getConstraintViolations().forEach(v -> {
-            String field = extractFieldName(v.getPropertyPath().toString());
-            errors.computeIfAbsent(field, k -> new ArrayList<>())
-                    .add(v.getMessage());
-        });
-
+            HttpServletRequest request) {
+        Map<String, List<ErrorDto>> errors = new HashMap<>();
+        Set<ConstraintViolation<?>> violations = ex.getConstraintViolations();
+        for(ConstraintViolation<?> violation : violations) {
+            String fieldName = extractFieldName(violation.getPropertyPath().toString());
+            errors.computeIfAbsent(fieldName, k -> new ArrayList<>())
+                    .add(new ErrorDto(
+                            violation.getMessage(),
+                            LocalDateTime.now(),
+                            request.getRequestURI()
+                    ));
+        }
         log.warn("Validation failed: {}", errors);
 
-        return buildErrorResponse(path, "Validation failed", errors, HttpStatus.BAD_REQUEST);
+        return buildErrorResponse(request.getRequestURI(), "Validation failed", errors, HttpStatus.BAD_REQUEST);
     }
 
-    // Missing Request Parameter
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public ResponseEntity<ErrorResponseDto> handleMissingParams(
             MissingServletRequestParameterException ex,
-            WebRequest request) {
-
-        String path = request.getDescription(false).replace("uri=", "");
+            HttpServletRequest request) {
 
         String message = "Required parameter '" + ex.getParameterName() + "' is missing";
 
         log.warn("Missing request parameter: {}", ex.getParameterName());
 
-        return buildErrorResponse(path, message, null, HttpStatus.BAD_REQUEST);
+        return buildErrorResponse(request.getRequestURI(), message, Collections.emptyMap(), HttpStatus.BAD_REQUEST);
     }
 
-    // Type Mismatch
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<ErrorResponseDto> handleTypeMismatch(
             MethodArgumentTypeMismatchException ex,
-            WebRequest request) {
-
-        String path = request.getDescription(false).replace("uri=", "");
+            HttpServletRequest request) {
 
         String message = "Invalid value '" + ex.getValue() +
                 "' for parameter '" + ex.getName() + "'";
 
         log.warn("Type mismatch: {}", ex.getMessage());
 
-        return buildErrorResponse(path, message, null, HttpStatus.BAD_REQUEST);
+        return buildErrorResponse(request.getRequestURI(), message, Collections.emptyMap(), HttpStatus.BAD_REQUEST);
     }
 
-    // Global Exception (fallback)
+    @ExceptionHandler(org.springframework.web.servlet.resource.NoResourceFoundException.class)
+    public ResponseEntity<ErrorResponseDto> handleNoResourceFound(Exception ex, HttpServletRequest request) {
+
+        log.warn("Incorrect endpoint: {}", ex.getMessage());
+
+        return buildErrorResponse(request.getRequestURI(), "Endpoint not found.", Collections.emptyMap(), HttpStatus.NOT_FOUND);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponseDto> handleGlobalException(
             Exception ex,
-            WebRequest request) {
-
-        String path = request.getDescription(false).replace("uri=", "");
+            HttpServletRequest request) {
 
         log.error("Unexpected error occurred", ex);
 
-        return buildErrorResponse(path, "Something went wrong", null, HttpStatus.INTERNAL_SERVER_ERROR);
+        return buildErrorResponse(request.getRequestURI(), "Something went wrong", Collections.emptyMap(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
-    @ExceptionHandler(AgencyNotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ResponseEntity<ErrorResponseDto> handleAgencyNotFoundException(AgencyNotFoundException ex, HttpServletRequest request) {
-        return new ResponseEntity(new ErrorResponseDto(400,"Agency Not Found",ex.getMessage(),request.getRequestURI(), LocalDateTime.now()), HttpStatus.NOT_FOUND);
-    }
+
 }
