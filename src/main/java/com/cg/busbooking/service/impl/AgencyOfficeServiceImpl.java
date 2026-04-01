@@ -1,8 +1,8 @@
 package com.cg.busbooking.service.impl;
 
-import com.cg.busbooking.constants.AppConstants;
-import com.cg.busbooking.dto.response.BusResponseDto;
-import com.cg.busbooking.dto.response.DriverResponseDto;
+import com.cg.busbooking.constants.AgencyOfficeConstants;
+import com.cg.busbooking.dto.response.OfficeDriverResponseDto;
+import com.cg.busbooking.dto.response.OfficeBusResponseDto;
 import com.cg.busbooking.entity.AgencyOffice;
 import com.cg.busbooking.entity.Bus;
 import com.cg.busbooking.entity.Driver;
@@ -27,12 +27,12 @@ public class AgencyOfficeServiceImpl implements AgencyOfficeService {
     private final DriverRepository driverRepository;
 
     @Override
-    public List<BusResponseDto> getBusesByOfficeId(Integer officeId) {
+    public List<OfficeBusResponseDto> getBusesByOfficeId(Integer officeId) {
 
         //Check if office exists
         AgencyOffice office = agencyOfficeRepository.findById(officeId)
                 .orElseThrow(() -> new ResourceNotFoundException(
-                        AppConstants.OFFICE_NOT_FOUND + officeId
+                        AgencyOfficeConstants.OFFICE_NOT_FOUND + officeId
                 ));
 
         //Fetch buses
@@ -40,17 +40,17 @@ public class AgencyOfficeServiceImpl implements AgencyOfficeService {
 
         //Map to DTO
         return buses.stream()
-                .map(bus -> modelMapper.map(bus, BusResponseDto.class))
+                .map(bus -> modelMapper.map(bus, OfficeBusResponseDto.class))
                 .toList();
     }
 
     @Override
-    public List<DriverResponseDto> getDriversByOfficeId(Integer officeId) {
+    public List<OfficeDriverResponseDto> getDriversByOfficeId(Integer officeId) {
 
         // 1. Check if office exists
         AgencyOffice office = agencyOfficeRepository.findById(officeId)
                 .orElseThrow(() -> new ResourceNotFoundException(
-                        AppConstants.OFFICE_NOT_FOUND + officeId
+                        AgencyOfficeConstants.OFFICE_NOT_FOUND + officeId
                 ));
 
         // 2. Fetch drivers
@@ -58,7 +58,7 @@ public class AgencyOfficeServiceImpl implements AgencyOfficeService {
 
         // 3. Map to DTO using ModelMapper
         return drivers.stream()
-                .map(driver -> modelMapper.map(driver, DriverResponseDto.class))
+                .map(driver -> modelMapper.map(driver, OfficeDriverResponseDto.class))
                 .toList();
     }
 }

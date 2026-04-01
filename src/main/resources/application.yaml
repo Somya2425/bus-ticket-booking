@@ -3,8 +3,8 @@ spring:
     name: bus-ticket-booking
   datasource:
     url: jdbc:mysql://10.10.167.65:3306/busticketbooking
-    username: mahi
-    password: MahiSahu@2004
+    username: aditi
+    password: Root@1234
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:

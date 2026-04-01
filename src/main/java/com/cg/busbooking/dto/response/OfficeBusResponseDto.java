@@ -1,15 +1,13 @@
 package com.cg.busbooking.dto.response;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AvailableSeatsResponseDto {
-    Integer tripId;
-    Integer availableSeats;
+public class OfficeBusResponseDto {
+    private Integer busId;
+    private String type;
 }
