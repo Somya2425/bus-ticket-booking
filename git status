@@ -1,0 +1,35 @@
+[33med2af13[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mroute[m[33m, [m[1;31morigin/route[m[33m)[m Added test case for get route between cities
+[33mb799c87[m Added city traffic API in route
+[33mbe39cf0[m Route branch merged
+[33me4f099b[m "Resolved issue of agency controller"
+[33m3206540[m Route branch merged
+[33md3254ee[m Merge remote-tracking branch 'origin/customer' into development
+[33mba68af7[m Merge remote-tracking branch 'origin/agency' into development
+[33m2d31ff3[m Local changes before merging
+[33m1795637[m Merge remote-tracking branch 'origin/development' into development
+[33m73d3c96[m Route branch merged
+[33m1658e61[m "Route branch merged"
+[33m8dd97c0[m Merge pull request #7 from Somya2425/trip
+[33mc501c43[m[33m ([m[1;31morigin/trip[m[33m)[m corrected the available seats api
+[33macb5833[m API to get most popular routes added
+[33mfbafec8[m[33m ([m[1;31morigin/customer[m[33m)[m Updated Customer API with DTO, service implementation and enum
+[33m7120e63[m[33m ([m[1;31morigin/agency[m[33m)[m "Modified url to /buses"
+[33m9ca8459[m "Modified url to /customers"
+[33mc0ae3a4[m Get all buses of a particular agency doing a trip on particular date.
+[33mb6a2746[m Implemented customer APIs with DTO, exception handling and constants
+[33m0638090[m Added constants, dto, exception from development branch
+[33m6387d87[m Added entity mappings
+[33m4fe8cf3[m Added booking repository queries
+[33m6c743b4[m Added customer repository queries
+[33m2e74865[m Added customer service interface
+[33m9e8fa1d[m Implemented customer service logic
+[33m8ad7f3a[m Added customer controller API
+[33md33c521[m Added config file.
+[33m602fc0e[m Add API to fetch available and booked seats by tripId
+[33m2c824b1[m Made an api to get no. of available seats by tripId.
+[33m6242474[m Get all offices of a particular agency by id
+[33m1a3c0fe[m get routes between cities
+[33m65e17cc[m Get all customers of a particular agency using agency id
+[33m73695fb[m Configuration and DTO files created
+[33m4534c2f[m[33m ([m[1;32mcustomer[m[33m)[m Added entity classes, controllers, and initial setup
+[33m709a10f[m[33m ([m[1;32mmain[m[33m)[m Initial commit

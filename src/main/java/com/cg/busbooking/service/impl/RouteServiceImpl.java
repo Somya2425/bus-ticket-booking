@@ -11,17 +11,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RouteServiceImpl implements RouteService {
 
     private final RouteRepository routeRepository;
-    private final TripRepository tripRepository;
     private final BookingRepository bookingRepository;
 
-    public RouteServiceImpl(RouteRepository routeRepository,TripRepository tripRepository,BookingRepository bookingRepository){
+    public RouteServiceImpl(RouteRepository routeRepository,BookingRepository bookingRepository){
         this.routeRepository=routeRepository;
-        this.tripRepository = tripRepository;
         this.bookingRepository = bookingRepository;
     }
 
@@ -33,18 +32,14 @@ public class RouteServiceImpl implements RouteService {
         return routes;
     }
 
-    public List<Route> getMostPopularRoutes(Integer limit) {
-        Pageable pageable = PageRequest.of(0, limit);
-        return tripRepository.findMostPopularRoutes(pageable);
-    }
-
-
-    public List<CityTrafficResponseDto> getTopCitiesByTraffic(Integer limit) {
-        List<CityTrafficResponseDto> result = bookingRepository.getCityTraffic(PageRequest.of(0, limit));
-        if (result == null || result.isEmpty()) {
-            throw new ResourceNotFoundException("No traffic data found");
+    public List<Route> getMostPopularRoute() {
+        List<Route> routes = bookingRepository.findMostPopularRoutes();
+        if (routes.isEmpty()) {
+            throw new RuntimeException("No bookings found");
         }
-        return result;
+        return routes;
     }
+
+
 
 }
