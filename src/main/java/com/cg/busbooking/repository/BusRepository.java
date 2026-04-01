@@ -12,12 +12,13 @@ import java.util.List;
 @Repository
 public interface BusRepository extends JpaRepository<Bus,Integer> {
     @Query("""
-        SELECT DISTINCT b FROM Bus b
-        JOIN b.office ao
-        JOIN ao.agency a
-        JOIN Trip t ON t.bus.busId = b.busId
-        WHERE a.agencyId = :agencyId
-        AND t.tripDate = :tripDate
+      SELECT DISTINCT t.bus
+      FROM Trip t
+      JOIN t.bus b
+      JOIN b.office ao
+      JOIN ao.agency a
+      WHERE a.agencyId = :agencyId
+      AND t.tripDate = :tripDate
     """)
     List<Bus> findBusesByAgencyIdAndDate(@Param("agencyId") Integer agencyId, @Param("tripDate") LocalDateTime tripDate);
     List<Bus> findByOffice_OfficeId(Integer officeId);

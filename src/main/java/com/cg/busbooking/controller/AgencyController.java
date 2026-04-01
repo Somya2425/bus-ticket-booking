@@ -1,6 +1,7 @@
 package com.cg.busbooking.controller;
 
 import com.cg.busbooking.dto.response.AgencyOfficeResponseDto;
+import com.cg.busbooking.dto.response.AgencyRevenueDto;
 import com.cg.busbooking.dto.response.BusResponseDto;
 import com.cg.busbooking.service.AgencyService;
 import org.modelmapper.ModelMapper;
@@ -39,4 +40,10 @@ public class AgencyController {
                 .toList();
         return new ResponseEntity<>(buses, HttpStatus.OK);
     }
+
+    @GetMapping("{agencyId}/revenue")
+    public ResponseEntity<AgencyRevenueDto> getRevenueOfAgency(@PathVariable Integer agencyId) {
+        return new ResponseEntity<>(agencyService.getAgencyRevenueByAgencyId(agencyId), HttpStatus.OK);
+    }
+
 }

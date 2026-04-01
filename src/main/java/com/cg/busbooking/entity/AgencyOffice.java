@@ -18,6 +18,7 @@ public class AgencyOffice {
     private String officeContactNumber;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "agency_id")
     @JsonIgnore
     private Agency agency;

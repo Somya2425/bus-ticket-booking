@@ -129,9 +129,9 @@ public class GlobalExceptionHandler {
 
         return buildErrorResponse(path, "Something went wrong", null, HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
-    // Helper
-    private String extractFieldName(String path) {
-        return path.substring(path.lastIndexOf(".") + 1);
+    @ExceptionHandler(AgencyNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity<ErrorResponseDto> handleAgencyNotFoundException(AgencyNotFoundException ex, HttpServletRequest request) {
+        return new ResponseEntity(new ErrorResponseDto(400,"Agency Not Found",ex.getMessage(),request.getRequestURI(), LocalDateTime.now()), HttpStatus.NOT_FOUND);
     }
 }
