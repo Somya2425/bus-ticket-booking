@@ -22,19 +22,37 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+/**
+ * Unit test class for CustomerServiceImpl.
+ * This class tests:
+ * - Fetching customers by name and address
+ * - Fetching bookings of a customer
+ * Mockito is used to mock repository dependencies.
+ */
 @ExtendWith(MockitoExtension.class)
 public class CustomerServiceTest {
 
+    /**
+     * Mock repository for customer data.
+     */
     @Mock
     private CustomerRepository customerRepository;
 
+    /**
+     * Mock repository for booking data.
+     */
     @Mock
     private BookingRepository bookingRepository;
 
+    /**
+     * Service instance with injected mock dependencies.
+     */
     @InjectMocks
     private CustomerServiceImpl customerServiceImpl;
 
-
+    /**
+     * Test case for successful retrieval of customer by name and address.
+     */
     @Test
     void testGetCustomerByNameAndAddress_success() {
 
@@ -62,7 +80,9 @@ public class CustomerServiceTest {
         verify(customerRepository, times(1)).findByNameAndAddress("Aditya Gupta", "Sukhdev Sadan, Allahpur");
     }
 
-
+    /**
+     * Test case for scenario when no customer is found.
+     */
     @Test
     void testGetCustomerByNameAndAddress_notFound() {
 
@@ -72,7 +92,9 @@ public class CustomerServiceTest {
         assertThrows(ResourceNotFoundException.class, () -> customerServiceImpl.getCustomerByNameAndAddress("Aditya Gupta", "Sukhdev Sadan, Allahpur"));
     }
 
-
+    /**
+     * Test case for successful retrieval of customer bookings.
+     */
     @Test
     void testGetCustomerBookings_success() {
 
@@ -97,8 +119,10 @@ public class CustomerServiceTest {
     }
 
 
+    /**
+     * Test case for scenario when no bookings are found.
+     */
 
-    // 🔸 Exception Case
     @Test
     void testGetCustomerBookings_notFound() {
 
