@@ -1,5 +1,6 @@
 package com.cg.busbooking.service.impl;
 
+import com.cg.busbooking.constants.AgencyConstants;
 import com.cg.busbooking.dto.response.AgencyRevenueDto;
 import com.cg.busbooking.entity.Agency;
 import com.cg.busbooking.entity.AgencyOffice;
@@ -34,7 +35,7 @@ public class AgencyServiceImpl implements AgencyService {
     public List<Customer> getCustomersByAgencyId(Integer agencyId) {
         Optional<Agency> op = agencyRepository.findById(agencyId);
         if(!op.isPresent()) {
-          throw new ResourceNotFoundException("Agency not found for agencyId: " + agencyId);
+          throw new ResourceNotFoundException(AgencyConstants.AGENCY_NOT_FOUND + agencyId);
         }
         return customerRepository.findCustomerByAgencyId(agencyId);
     }
@@ -43,7 +44,7 @@ public class AgencyServiceImpl implements AgencyService {
     public List<AgencyOffice> getOfficesByAgencyId(Integer id) {
         Optional<Agency> op = agencyRepository.findById(id);
         if(!op.isPresent()) {
-            throw new ResourceNotFoundException("Agency not found for agencyId: " + id);
+            throw new ResourceNotFoundException(AgencyConstants.AGENCY_NOT_FOUND + id);
         }
         return agencyOfficeRepository.findByAgencyId(id);
     }
@@ -52,7 +53,7 @@ public class AgencyServiceImpl implements AgencyService {
     public List<Bus> getBusByAgencyIdAndDate(Integer agencyId, LocalDateTime tripDate) {
         Optional<Agency> op = agencyRepository.findById(agencyId);
         if(!op.isPresent()) {
-            throw new ResourceNotFoundException("Agency not found for agencyId: " + agencyId);
+            throw new ResourceNotFoundException(AgencyConstants.AGENCY_NOT_FOUND + agencyId);
         }
         return busRepository.findBusesByAgencyIdAndDate(agencyId, tripDate);
     }
@@ -61,7 +62,7 @@ public class AgencyServiceImpl implements AgencyService {
     public AgencyRevenueDto getAgencyRevenueByAgencyId(Integer agencyId) {
         Optional<Agency> op = agencyRepository.findById(agencyId);
         if(!op.isPresent()) {
-            throw new ResourceNotFoundException("Agency not found for agencyId: " + agencyId);
+            throw new ResourceNotFoundException(AgencyConstants.AGENCY_NOT_FOUND + agencyId);
         }
         AgencyRevenueDto revenueDto = new AgencyRevenueDto();
         revenueDto.setAgencyName(op.get().getName());

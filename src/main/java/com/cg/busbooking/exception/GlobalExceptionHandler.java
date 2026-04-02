@@ -1,6 +1,5 @@
 package com.cg.busbooking.exception;
 
-import com.cg.busbooking.dto.ErrorDto;
 import com.cg.busbooking.dto.response.ErrorResponseDto;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolation;
@@ -57,6 +56,14 @@ public class GlobalExceptionHandler {
         return buildErrorResponse(request.getRequestURI(), ex.getMessage(), Collections.emptyMap(), HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(InvalidRouteException.class)
+    public ResponseEntity<ErrorResponseDto> handleInvalidRoute(
+            InvalidRouteException ex,
+            HttpServletRequest request) {
+        log.warn("Invalid Route: {}", ex.getMessage());
+        return buildErrorResponse(request.getRequestURI(), ex.getMessage(), Collections.emptyMap(), HttpStatus.BAD_REQUEST);
+    }
+
     private String extractFieldName(String path) {
         return path.substring(path.lastIndexOf(".") + 1);
     }
@@ -65,16 +72,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponseDto> handleValidation(
             ConstraintViolationException ex,
             HttpServletRequest request) {
-        Map<String, List<ErrorDto>> errors = new HashMap<>();
+        Map<String, List<String>> errors = new HashMap<>();
         Set<ConstraintViolation<?>> violations = ex.getConstraintViolations();
         for(ConstraintViolation<?> violation : violations) {
             String fieldName = extractFieldName(violation.getPropertyPath().toString());
             errors.computeIfAbsent(fieldName, k -> new ArrayList<>())
-                    .add(new ErrorDto(
-                            violation.getMessage(),
-                            LocalDateTime.now(),
-                            request.getRequestURI()
-                    ));
+                    .add(violation.getMessage());
         }
         log.warn("Validation failed: {}", errors);
 

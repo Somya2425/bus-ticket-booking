@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/customer/")
+@RequestMapping("/api/customers")
 @Validated
 public class CustomerController {
     private final CustomerService customerService;
@@ -25,7 +25,7 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    @GetMapping("/customer/{name}/{address}")
+    @GetMapping("{name}/{address}")
     public ResponseEntity<List<CustomerResponseDto>> getCustomerByNameAndAddress(
             @PathVariable
             @NotNull(message = "Name cannot be null or empty.")
@@ -41,7 +41,7 @@ public class CustomerController {
         );
     }
 
-    @GetMapping("/customer/{customerId}/bookings")
+    @GetMapping("{customerId}/bookings")
     public ResponseEntity<List<BookingResponseDto>> getCustomerBookings(
             @PathVariable
             @NotNull(message = "Customer Id cannot be null")

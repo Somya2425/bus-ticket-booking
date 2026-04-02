@@ -2,6 +2,7 @@ package com.cg.busbooking.service.impl;
 import com.cg.busbooking.constants.RouteConstants;
 import com.cg.busbooking.dto.response.CityTrafficResponseDto;
 import com.cg.busbooking.entity.Route;
+import com.cg.busbooking.exception.InvalidRouteException;
 import com.cg.busbooking.exception.ResourceNotFoundException;
 import com.cg.busbooking.exception.RouteNotFoundException;
 import com.cg.busbooking.repository.BookingRepository;
@@ -26,6 +27,10 @@ public class RouteServiceImpl implements RouteService {
     }
 
     public List<Route> getRouteBetweenCities(String source, String destination){
+        if(source.equalsIgnoreCase(destination)){
+            throw new InvalidRouteException(RouteConstants.INVALID_ROUTE);
+        }
+
         List<Route> routes = routeRepository.findByFromCityIgnoreCaseAndToCityIgnoreCase(source,destination);
         if(routes.isEmpty()){
             throw new RouteNotFoundException("No routes found between "+source+" and "+destination);
