@@ -10,7 +10,6 @@ public interface CustomerService {
 
     List<BookingResponseDto> getCustomerBookings(Integer customerId);
 
-    List<CustomerResponseDto> getCustomersByAgency(Integer agencyId);
 
 
 }

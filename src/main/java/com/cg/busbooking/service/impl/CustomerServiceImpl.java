@@ -42,22 +42,6 @@ public class CustomerServiceImpl implements CustomerService {
         }).toList();
     }
 
-    @Override
-    public List<CustomerResponseDto> getCustomersByAgency(Integer agencyId) {
-        List<Customer> customers = customerRepository.findCustomersByAgency(agencyId);
-        if (customers.isEmpty()) {
-            throw new ResourceNotFoundException(CustomerConstants.AGENCY_CUSTOMERS_NOT_FOUND);
-        }
-        return customers.stream().map(c -> {
-            CustomerResponseDto dto = new CustomerResponseDto();
-            dto.setCustomerId(c.getCustomerId());
-            dto.setName(c.getName());
-            dto.setEmail(c.getEmail());
-            dto.setPhone(c.getPhone());
-            dto.setCity(c.getAddress().getCity());
-            return dto;
-        }).toList();
-    }
 
     @Override
     public List<CustomerResponseDto> getCustomerByNameAndAddress(String name, String address) {
