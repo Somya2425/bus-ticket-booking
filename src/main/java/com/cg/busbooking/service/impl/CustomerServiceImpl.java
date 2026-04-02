@@ -9,8 +9,6 @@ import com.cg.busbooking.exception.ResourceNotFoundException;
 import com.cg.busbooking.repository.BookingRepository;
 import com.cg.busbooking.repository.CustomerRepository;
 import com.cg.busbooking.service.CustomerService;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -1,19 +1,14 @@
 package com.cg.busbooking.service.impl;
 import com.cg.busbooking.constants.RouteConstants;
-import com.cg.busbooking.dto.response.CityTrafficResponseDto;
 import com.cg.busbooking.entity.Route;
 import com.cg.busbooking.exception.InvalidRouteException;
 import com.cg.busbooking.exception.ResourceNotFoundException;
 import com.cg.busbooking.exception.RouteNotFoundException;
 import com.cg.busbooking.repository.BookingRepository;
 import com.cg.busbooking.repository.RouteRepository;
-import com.cg.busbooking.repository.TripRepository;
 import com.cg.busbooking.service.RouteService;
 import org.springframework.stereotype.Service;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.PageRequest;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class RouteServiceImpl implements RouteService {
