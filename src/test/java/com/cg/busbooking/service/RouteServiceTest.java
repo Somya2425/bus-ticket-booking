@@ -1,5 +1,4 @@
 package com.cg.busbooking.service;
-
 import com.cg.busbooking.entity.Route;
 import com.cg.busbooking.exception.InvalidRouteException;
 import com.cg.busbooking.exception.ResourceNotFoundException;
@@ -17,15 +16,31 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+/**
+ * Unit tests for RouteServiceImpl.
+ */
 @ExtendWith(MockitoExtension.class)
 class RouteServiceTest {
+    /**
+     * Mocked RouteRepository for testing.
+     */
     @Mock
     private RouteRepository routeRepository;
+    /**
+     * Mocked BookingRepository for testing.
+     */
     @Mock
     private BookingRepository bookingRepository;
+    /**
+     * Instance of RouteServiceImpl with injected mocks.
+     */
     @InjectMocks
     private RouteServiceImpl routeService;
 
+    /**
+     * Verifies that routes are returned when
+     * valid source and destination are provided.
+     */
     @Test
     void testGetRouteBetweenCities_success() {
         String source = "Mumbai";
@@ -44,7 +59,10 @@ class RouteServiceTest {
         verify(routeRepository, times(1)).findByFromCityIgnoreCaseAndToCityIgnoreCase(source, destination);
     }
 
-
+    /**
+     * Verifies that RouteNotFoundException is thrown
+     * when no routes exist.
+     */
     @Test
     void testGetRouteBetweenCities_noRoutesFound() {
         String source = "CityA";
@@ -53,6 +71,10 @@ class RouteServiceTest {
         assertThrows(RouteNotFoundException.class, () -> routeService.getRouteBetweenCities(source, destination));
         verify(routeRepository, times(1)).findByFromCityIgnoreCaseAndToCityIgnoreCase(source, destination);
     }
+    /**
+     * Verifies that InvalidRouteException is thrown
+     * when source and destination are the same.
+     */
 
     @Test
     void testGetRouteBetweenCities_sameSourceAndDestination() {
@@ -60,6 +82,10 @@ class RouteServiceTest {
         assertThrows(InvalidRouteException.class, () -> routeService.getRouteBetweenCities(city, city));
         verify(routeRepository, never()).findByFromCityIgnoreCaseAndToCityIgnoreCase(any(), any());
     }
+    /**
+     * Verifies that most popular routes
+     * are returned successfully.
+     */
 
     @Test
     void testGetMostPopularRoute_success() {
@@ -75,11 +101,14 @@ class RouteServiceTest {
         assertEquals("Pune", result.getFirst().getToCity());
         verify(bookingRepository).findMostPopularRoutes();
     }
+    /**
+     * Verifies that ResourceNotFoundException is thrown
+     * when no popular routes exist.
+     */
     @Test
     void testGetMostPopularRoute_noRoutesFound() {
         when(bookingRepository.findMostPopularRoutes()).thenReturn(Collections.emptyList());
         assertThrows(ResourceNotFoundException.class, () -> routeService.getMostPopularRoute());
         verify(bookingRepository).findMostPopularRoutes();
     }
-
 }

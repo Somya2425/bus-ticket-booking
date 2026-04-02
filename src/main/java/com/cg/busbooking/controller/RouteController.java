@@ -70,7 +70,7 @@ public class RouteController {
      * @return list of routes
      * @throws ResourceNotFoundException if no booking data exists
      */
-    
+
     @GetMapping("/popular")
     public ResponseEntity<List<Route>> getMostPopularRoute() {
         return ResponseEntity.ok(routeService.getMostPopularRoute());
