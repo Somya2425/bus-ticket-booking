@@ -32,9 +32,16 @@ public class TripServiceImpl implements TripService {
     @Override
     public List<TripResponseDto> getTripBySourceAndDestination(String source, String destination) {
 
-       List<Trip> trips = tripRepository.findByRoute_FromCityIgnoreCaseAndRoute_ToCityIgnoreCase(source, destination);
-       return trips.stream()
-               .map(trip -> modelMapper.map(trip,TripResponseDto.class))
-               .toList();
+        List<Trip> trips = tripRepository.findByRoute_FromCityIgnoreCaseAndRoute_ToCityIgnoreCase(source, destination);
+
+        if (trips.isEmpty()) {
+            throw new ResourceNotFoundException(
+                    String.format(TripConstants.TRIPS_NOT_FOUND_BETWEEN, source, destination)
+            );
+        }
+
+        return trips.stream()
+                .map(trip -> modelMapper.map(trip, TripResponseDto.class))
+                .toList();
     }
 }
