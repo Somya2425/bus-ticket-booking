@@ -5,12 +5,10 @@ import com.cg.busbooking.dto.response.OfficeBusResponseDto;
 import com.cg.busbooking.service.AgencyOfficeService;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,8 +25,19 @@ public class AgencyOfficeController {
     public ResponseEntity<List<OfficeBusResponseDto>> getBusesByOfficeId(
             @RequestParam
             @Min(value = 1, message = "Office ID must be greater than 0")
-            Integer officeId
-    ) {
+            Integer officeId,
+            @RequestHeader("role") String role,
+            @RequestHeader(value = "officeId", required = false) Integer userOfficeId) {
+
+        if (role.equals("CUSTOMER")) {
+            return new ResponseEntity("Customers cannot access buses", HttpStatusCode.valueOf(403));
+        }
+
+        if (role.equals("AGENCY")) {
+            if (userOfficeId == null || !userOfficeId.equals(officeId)) {
+                return new ResponseEntity("Agency can only access their own office buses",HttpStatusCode.valueOf(403));
+            }
+        }
         List<OfficeBusResponseDto> buses =
                 agencyOfficeService.getBusesByOfficeId(officeId);
 
@@ -39,8 +48,21 @@ public class AgencyOfficeController {
     public ResponseEntity<List<OfficeDriverResponseDto>> getDriversByOfficeId(
             @RequestParam
             @Min(value = 1, message = "Office ID must be greater than 0")
-            Integer officeId
-    ) {
+            Integer officeId,
+            @RequestHeader("role") String role,
+            @RequestHeader(value = "officeId", required = false)Integer userOfficeId) {
+
+        if (role.equals("CUSTOMER")) {
+            return new ResponseEntity("Customers cannot access drivers",HttpStatusCode.valueOf(403));
+        }
+
+        // 🔥 AGENCY → only their own office
+        if (role.equals("AGENCY")) {
+            if (userOfficeId == null || !userOfficeId.equals(officeId)) {
+                return new ResponseEntity("Agency can only access their own office drivers",HttpStatusCode.valueOf(403));
+            }
+        }
+
         List<OfficeDriverResponseDto> drivers =
                 agencyOfficeService.getDriversByOfficeId(officeId);
 

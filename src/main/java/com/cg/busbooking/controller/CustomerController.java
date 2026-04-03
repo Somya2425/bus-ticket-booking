@@ -7,12 +7,11 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -34,7 +33,12 @@ public class CustomerController {
             @PathVariable
             @NotNull(message = "Address cannot be null or empty.")
             @NotBlank(message = "Address cannot be blank.")
-            String address) {
+            String address,
+            @RequestHeader("role") String role) {
+
+        if (!role.equals("ADMIN")) {
+            return new ResponseEntity("Only admin can access this API", HttpStatusCode.valueOf(403));
+        }
 
         return ResponseEntity.ok(
                 customerService.getCustomerByNameAndAddress(name, address)
@@ -47,8 +51,15 @@ public class CustomerController {
             @NotNull(message = "Customer Id cannot be null")
             @Min(value = 0,message = "Customer Id must be positive")
             @Max(value = Integer.MAX_VALUE,message = "Customer Id must be less than "+ Integer.MAX_VALUE)
-            Integer customerId) {
+            Integer customerId,
+            @RequestHeader("role") String role,
+            @RequestHeader(value = "userId", required = false) String userId) {
 
+        if (role.equals("CUSTOMER")) {
+            if (!userId.equals(String.valueOf(customerId))) {
+                return new ResponseEntity("Customers can only view their own bookings", HttpStatus.UNAUTHORIZED);
+            }
+        }
         return ResponseEntity.ok(
                 customerService.getCustomerBookings(customerId)
         );
