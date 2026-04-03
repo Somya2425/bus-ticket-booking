@@ -4,6 +4,7 @@ import com.cg.busbooking.dto.response.ErrorResponseDto;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
+import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -22,14 +23,16 @@ import java.util.*;
  * a structured error response to the client.
  */
 @RestControllerAdvice
+@NoArgsConstructor
 public class GlobalExceptionHandler {
 
+    /**
+     * Logger to maintain the chain of logs
+     */
     private static final Logger log =
             LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     /**
-     * Builds a standardized error response.
-     *
      * @param path    request URI
      * @param message error message
      * @param errors  additional error details

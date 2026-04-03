@@ -37,13 +37,6 @@ public class TripConstants {
     /**
      * Error message used when no trips are found between two locations.
      *
-     * Usage:
-     * This is a formatted string where source and destination cities
-     * are dynamically inserted using String.format().
-     *
-     * Example:
-     * String.format(TRIPS_NOT_FOUND_BETWEEN, "Delhi", "Mumbai")
-     * Output: "No trips found from 'Delhi' to 'Mumbai'"
      */
     public static final String TRIPS_NOT_FOUND_BETWEEN = "No trips found from '%s' to '%s'";
 }

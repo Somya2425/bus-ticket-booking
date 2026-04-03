@@ -18,6 +18,10 @@ public class BookingResponseDto {
      * Unique identifier of the booking.
      */
     private Integer bookingId;
+
+    /**
+     * Id to identify trip
+     */
     private Integer tripId;
 
     /**
