@@ -33,8 +33,7 @@ public final class TripConstants {
      * Note: Can be appended with tripId for more clarity.
      * Example: "Trip not found with id 1"
      */
-    public static final String TRIP_NOT_FOUND = "Trip not found with id";
-
+    public static final String TRIP_NOT_FOUND = "Trip not found with id %d";
     /**
      * Standard success status code used in API responses.
      *

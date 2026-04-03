@@ -60,7 +60,7 @@ public class TripServiceImpl implements TripService {
         // Fetch trip from database
         Trip trip = tripRepository.findById(tripId)
                 .orElseThrow(() ->
-                        new ResourceNotFoundException(String.format(TripConstants.TRIP_NOT_FOUND + " %d", tripId))
+                        new ResourceNotFoundException(String.format(TripConstants.TRIP_NOT_FOUND, tripId))
                 );
 
         // Extract available seats
