@@ -5,8 +5,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
 @Entity
 @Table(name="agency_offices")
 @Getter
@@ -20,8 +18,8 @@ public class AgencyOffice {
     private String officeContactNumber;
 
     @ManyToOne
-    @JoinColumn(name = "agency_id")
     @JsonIgnore
+    @JoinColumn(name = "agency_id")
     private Agency agency;
 
     @ManyToOne

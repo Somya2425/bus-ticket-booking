@@ -9,11 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class RouteResponseDto {
-    private Integer routeId;
-    private String fromCity;
-    private String toCity;
-    private Integer breakPoints;
-    private Integer duration;
-
+public class CityTrafficResponseDto {
+    private String city;
+    private Long totalBookings;
 }

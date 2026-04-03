@@ -1,5 +1,6 @@
 package com.cg.busbooking.service;
 
+import com.cg.busbooking.dto.response.AgencyRevenueDto;
 import com.cg.busbooking.entity.AgencyOffice;
 import com.cg.busbooking.entity.Bus;
 import com.cg.busbooking.entity.Customer;
@@ -11,4 +12,5 @@ public interface AgencyService {
     List<Customer> getCustomersByAgencyId(Integer id);
     List<AgencyOffice> getOfficesByAgencyId(Integer id);
     List<Bus> getBusByAgencyIdAndDate(Integer agencyId, LocalDateTime tripDate);
+    AgencyRevenueDto getAgencyRevenueByAgencyId(Integer agencyId);
 }

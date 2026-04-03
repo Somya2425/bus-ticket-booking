@@ -1,12 +1,10 @@
 package com.cg.busbooking.dto.response;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.Data;
+import lombok.*;
 
-@Getter
-@Setter
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class CustomerResponseDto {
     private Integer customerId;
     private String name;

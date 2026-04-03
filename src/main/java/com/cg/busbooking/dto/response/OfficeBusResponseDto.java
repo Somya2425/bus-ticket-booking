@@ -7,8 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ApiResponseDto {
-    private String statusCode;
-    private String statusMessage;
-    private Object object;
+public class OfficeBusResponseDto {
+    private Integer busId;
+    private String type;
 }

@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class DriverResponseDto {
+public class OfficeDriverResponseDto {
 
     private Integer driverId;
     private String name;

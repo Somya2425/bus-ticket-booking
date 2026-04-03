@@ -9,33 +9,26 @@ import com.cg.busbooking.exception.ResourceNotFoundException;
 import com.cg.busbooking.repository.BookingRepository;
 import com.cg.busbooking.repository.CustomerRepository;
 import com.cg.busbooking.service.CustomerService;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
+    private final CustomerRepository customerRepository;
+    private final BookingRepository bookingRepository;
 
-    @Autowired
-    private ModelMapper modelMapper;
-
-    @Autowired
-    private CustomerRepository customerRepository;
-
-    @Autowired
-    private BookingRepository bookingRepository;
+    public CustomerServiceImpl(CustomerRepository customerRepository, BookingRepository bookingRepository) {
+        this.customerRepository = customerRepository;
+        this.bookingRepository = bookingRepository;
+    }
 
     @Override
     public List<BookingResponseDto> getCustomerBookings(Integer customerId) {
-
         List<Booking> bookings = bookingRepository.findBookingsByCustomerId(customerId);
-
         if (bookings.isEmpty()) {
             throw new ResourceNotFoundException(CustomerConstants.BOOKINGS_NOT_FOUND);
         }
-
         return bookings.stream().map(b -> {
             BookingResponseDto dto = new BookingResponseDto();
             dto.setBookingId(b.getBookingId());
@@ -45,20 +38,16 @@ public class CustomerServiceImpl implements CustomerService {
             } else {
                 dto.setStatus("UNKNOWN");
             }
-
             return dto;
         }).toList();
     }
 
     @Override
     public List<CustomerResponseDto> getCustomersByAgency(Integer agencyId) {
-
         List<Customer> customers = customerRepository.findCustomersByAgency(agencyId);
-
         if (customers.isEmpty()) {
             throw new ResourceNotFoundException(CustomerConstants.AGENCY_CUSTOMERS_NOT_FOUND);
         }
-
         return customers.stream().map(c -> {
             CustomerResponseDto dto = new CustomerResponseDto();
             dto.setCustomerId(c.getCustomerId());
@@ -72,13 +61,10 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public List<CustomerResponseDto> getCustomerByNameAndAddress(String name, String address) {
-
         List<Customer> customers = customerRepository.findByNameAndAddress(name, address);
-
         if (customers.isEmpty()) {
             throw new ResourceNotFoundException(CustomerConstants.CUSTOMER_NOT_FOUND);
         }
-
         return customers.stream().map(c -> {
             CustomerResponseDto dto = new CustomerResponseDto();
             dto.setCustomerId(c.getCustomerId());
