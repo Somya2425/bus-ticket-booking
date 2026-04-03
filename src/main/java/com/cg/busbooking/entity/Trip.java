@@ -1,16 +1,19 @@
 package com.cg.busbooking.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "trips")
 public class Trip {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer tripId;
-
     private LocalDateTime departureTime;
     private LocalDateTime arrivalTime;
     private Integer availableSeats;
