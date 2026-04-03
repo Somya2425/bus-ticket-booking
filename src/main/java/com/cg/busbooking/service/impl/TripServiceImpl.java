@@ -5,7 +5,6 @@ import com.cg.busbooking.dto.response.AvailableSeatsResponseDto;
 import com.cg.busbooking.dto.response.TripResponseDto;
 import com.cg.busbooking.entity.Trip;
 import com.cg.busbooking.exception.ResourceNotFoundException;
-import com.cg.busbooking.repository.RouteRepository;
 import com.cg.busbooking.repository.TripRepository;
 import com.cg.busbooking.service.TripService;
 import lombok.RequiredArgsConstructor;

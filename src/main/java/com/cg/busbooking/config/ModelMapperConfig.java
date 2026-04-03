@@ -2,6 +2,7 @@ package com.cg.busbooking.config;
 
 import com.cg.busbooking.dto.response.TripResponseDto;
 import com.cg.busbooking.entity.Trip;
+import lombok.NoArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
  * ModelMapper mappings between entities and DTOs.
  */
 @Configuration
+@NoArgsConstructor
 public class ModelMapperConfig {
 
     /** Provides a customized ModelMapper bean

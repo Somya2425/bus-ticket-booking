@@ -79,7 +79,10 @@ public class AgencyController {
               @RequestHeader("role") String role,
               @RequestHeader(value = "agencyId", required = false) Integer userAgencyId) {
         ResponseEntity access = checkAccess(agencyId, role, userAgencyId);
-        if (access != null) return access;
+        if (access != null)
+        {
+            return access;
+        }
         final List<CustomerResponseDto> customers = agencyService.getCustomersByAgencyId(agencyId)
                 .stream()
                 .map(c -> modelMapper.map(c, CustomerResponseDto.class))

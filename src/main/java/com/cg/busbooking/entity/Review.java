@@ -2,6 +2,7 @@ package com.cg.busbooking.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
@@ -14,6 +15,7 @@ import java.time.LocalDateTime;
 @Setter
 @Entity
 @Table(name = "reviews")
+@NoArgsConstructor
 public class Review {
 
     /** Unique identifier for the review. */

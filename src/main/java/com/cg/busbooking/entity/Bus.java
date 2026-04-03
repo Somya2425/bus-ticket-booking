@@ -3,6 +3,7 @@ package com.cg.busbooking.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
@@ -12,6 +13,7 @@ import lombok.Setter;
 @Table(name = "buses")
 @Getter
 @Setter
+@NoArgsConstructor
 public class Bus {
 
     /**

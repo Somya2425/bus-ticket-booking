@@ -19,7 +19,8 @@ import java.util.List;
 
 /**
  * Implementation of {@link AgencyOfficeService}.
- * Handles business logic for fetching buses and drivers associated with an agency office.
+ * Handles business logic for fetching buses and
+ * drivers associated with an agency office.
  */
 @Service
 @RequiredArgsConstructor

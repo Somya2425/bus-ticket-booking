@@ -2,6 +2,7 @@ package com.cg.busbooking.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 /**
  * Entity representing an address in the system.
@@ -10,6 +11,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "addresses")
+@NoArgsConstructor
 public class Address {
     /**
      * Unique identifier for the address.

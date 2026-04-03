@@ -2,6 +2,7 @@ package com.cg.busbooking.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
@@ -12,6 +13,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "routes")
+@NoArgsConstructor
 public class Route {
 
     /** Unique identifier for the route. */

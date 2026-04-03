@@ -2,6 +2,7 @@ package com.cg.busbooking.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
@@ -11,6 +12,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "drivers")
+@NoArgsConstructor
 public class Driver {
 
     /** Unique identifier for the driver. */

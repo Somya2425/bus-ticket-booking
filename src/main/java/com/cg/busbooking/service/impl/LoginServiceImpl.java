@@ -16,7 +16,9 @@ import java.util.Optional;
  */
 @Service
 public class LoginServiceImpl implements LoginService {
-
+    /**
+     * Repository layer to support user related operations
+     */
     private final UserRepository userRepository;
 
     /**
@@ -30,10 +32,6 @@ public class LoginServiceImpl implements LoginService {
 
     /**
      * Validates user credentials.
-     *
-     * This method checks whether a user exists with the given username
-     * and verifies if the provided password matches the stored password.
-     *
      * @param username the username of the user
      * @param password the password provided for authentication
      * @return User object if credentials are valid, otherwise null
