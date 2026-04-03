@@ -17,6 +17,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Implementation of {@link AgencyOfficeService}.
+ * Handles business logic for fetching buses and drivers associated with an agency office.
+ */
 @Service
 @RequiredArgsConstructor
 public class AgencyOfficeServiceImpl implements AgencyOfficeService {
@@ -26,6 +30,14 @@ public class AgencyOfficeServiceImpl implements AgencyOfficeService {
     private final ModelMapper modelMapper;
     private final DriverRepository driverRepository;
 
+    /**
+     * Retrieves all buses associated with a given office ID.
+     * Validates the existence of the office before fetching buses.
+     *
+     * @param officeId the ID of the agency office
+     * @return list of buses mapped to OfficeBusResponseDto
+     * @throws ResourceNotFoundException if the office does not exist
+     */
     @Override
     public List<OfficeBusResponseDto> getBusesByOfficeId(Integer officeId) {
 
@@ -39,6 +51,14 @@ public class AgencyOfficeServiceImpl implements AgencyOfficeService {
                 .toList();
     }
 
+    /**
+     * Retrieves all drivers associated with a given office ID.
+     * Validates the existence of the office before fetching drivers.
+     *
+     * @param officeId the ID of the agency office
+     * @return list of drivers mapped to OfficeDriverResponseDto
+     * @throws ResourceNotFoundException if the office does not exist
+     */
     @Override
     public List<OfficeDriverResponseDto> getDriversByOfficeId(Integer officeId) {
         AgencyOffice office = agencyOfficeRepository.findById(officeId)
