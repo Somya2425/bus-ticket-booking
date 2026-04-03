@@ -22,27 +22,56 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
+/**
+ * Unit test class for AgencyServiceImpl.
+ * This class uses Mockito to mock dependencies and test the business logic
+ * of AgencyServiceImpl in isolation.
+ * Each method tests both:
+ * - Success scenarios
+ * - Failure scenarios (ResourceNotFoundException)
+ */
 @ExtendWith(MockitoExtension.class)
 public class AgencyServiceTest {
+
+    /**
+     * Mocked repository for Agency entity.
+     */
     @Mock
     private AgencyRepository agencyRepository;
 
+    /**
+     * Mocked repository for Customer entity.
+     */
     @Mock
     private CustomerRepository customerRepository;
 
+    /**
+     * Mocked repository for AgencyOffice entity.
+     */
     @Mock
     private AgencyOfficeRepository agencyOfficeRepository;
 
+    /**
+     * Mocked repository for Bus entity.
+     */
     @Mock
     private BusRepository busRepository;
 
+    /**
+     * Mocked repository for Payment entity.
+     */
     @Mock
     private PaymentRepository paymentRepository;
 
+    /**
+     * Injected instance of AgencyServiceImpl with mocked dependencies.
+     */
     @InjectMocks
     private AgencyServiceImpl agencyService;
 
-    //get customers by agencyId:
+    /**
+     * Test case for successfully fetching customers by agency ID.
+     */
     @Test
     void getCustomersByAgencyId_success() {
         Agency agency = new Agency();
@@ -57,13 +86,20 @@ public class AgencyServiceTest {
         verify(customerRepository, times(1)).findCustomerByAgencyId(1);
     }
 
+    /**
+     * Test case when agency is not found while fetching customers.
+     *
+     * Expected: ResourceNotFoundException
+     */
     @Test
     void getCustomersByAgencyId_notFound() {
         when(agencyRepository.findById(1)).thenReturn(Optional.empty());
         assertThrows(ResourceNotFoundException.class,()-> agencyService.getCustomersByAgencyId(1));
     }
 
-    //get offices of agency:
+    /**
+     * Test case for successfully fetching agency offices.
+     */
     @Test
     void getOfficesByAgencyId_success() {
         Agency agency = new Agency();
@@ -78,13 +114,20 @@ public class AgencyServiceTest {
         verify(agencyOfficeRepository, times(1)).findByAgencyId(1);
     }
 
+    /**
+     * Test case when agency is not found while fetching offices.
+     *
+     * Expected: ResourceNotFoundException
+     */
     @Test
     void getOfficesByAgencyId_notFound() {
         when(agencyRepository.findById(1)).thenReturn(Optional.empty());
         assertThrows(ResourceNotFoundException.class,()-> agencyService.getOfficesByAgencyId(1));
     }
 
-    //get bus by agencyid and date:
+    /**
+     * Test case for successfully fetching buses by agency ID and date.
+     */
     @Test
     void getBusByAgencyIdAndDate_success(){
         Agency agency = new Agency();
@@ -101,6 +144,11 @@ public class AgencyServiceTest {
         verify(busRepository, times(1)).findBusesByAgencyIdAndDate(1,tripDate);
     }
 
+    /**
+     * Test case when agency is not found while fetching buses.
+     *
+     * Expected: ResourceNotFoundException
+     */
     @Test
     void getBusByAgencyIdAndDate_notFound() {
         LocalDateTime date = LocalDateTime.now();
@@ -110,7 +158,9 @@ public class AgencyServiceTest {
                 () -> agencyService.getBusByAgencyIdAndDate(1, date));
     }
 
-    //get revenue of agency:
+    /**
+     * Test case for successfully fetching agency revenue.
+     */
     @Test
     void getAgencyRevenueByAgencyId_success() {
         Agency agency = new Agency();
@@ -132,6 +182,11 @@ public class AgencyServiceTest {
         verify(agencyRepository, times(1)).findById(1);
     }
 
+    /**
+     * Test case when agency is not found while fetching revenue.
+     *
+     * Expected: ResourceNotFoundException
+     */
     @Test
     void getAgencyRevenueByAgencyId_notFound() {
         when(agencyRepository.findById(1)).thenReturn(Optional.empty());

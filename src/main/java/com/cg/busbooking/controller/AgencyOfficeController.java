@@ -22,7 +22,9 @@ import java.util.List;
 @RequiredArgsConstructor
 @Validated
 public class AgencyOfficeController {
-
+    /**
+     * Service layer dependency for agencyOffice-related operations.
+     */
     private final AgencyOfficeService agencyOfficeService;
 
 

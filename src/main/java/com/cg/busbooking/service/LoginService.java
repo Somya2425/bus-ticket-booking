@@ -2,6 +2,17 @@ package com.cg.busbooking.service;
 
 import com.cg.busbooking.entity.User;
 
+/**
+ * Service interface for handling user authentication.
+ * This interface defines the contract for validating user credentials.
+ */
 public interface LoginService {
-    public User validateUser(String username, String password);
+
+    /**
+     * Validates user credentials.
+     * @param username the username of the user
+     * @param password the password provided for authentication
+     * @return User object if credentials are valid, otherwise null
+     */
+    User validateUser(String username, String password);
 }
