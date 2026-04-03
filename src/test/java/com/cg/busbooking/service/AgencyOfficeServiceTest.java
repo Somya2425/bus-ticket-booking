@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -31,6 +30,10 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+/**
+ * Unit test class for {@link AgencyOfficeServiceImpl}.
+ * Tests business logic related to fetching buses and drivers by office ID.
+ */
 @ExtendWith(MockitoExtension.class)
 public class AgencyOfficeServiceTest {
 
@@ -51,6 +54,9 @@ public class AgencyOfficeServiceTest {
 
     // -------------------- BUS TESTS --------------------
 
+    /**
+     * Verifies that bus DTOs are returned when the office exists.
+     */
     @Test
     void shouldReturnBusDtos_whenOfficeExists() {
         Integer officeId = 1;
@@ -84,6 +90,10 @@ public class AgencyOfficeServiceTest {
         verify(busRepository).findByOffice_OfficeId(officeId);
     }
 
+    /**
+     * Verifies that ResourceNotFoundException is thrown
+     * when office does not exist while fetching buses.
+     */
     @Test
     void shouldThrowException_whenOfficeNotFound_forBuses() {
         Integer officeId = 11111;
@@ -103,6 +113,9 @@ public class AgencyOfficeServiceTest {
 
     // -------------------- DRIVER TESTS --------------------
 
+    /**
+     * Verifies that driver DTOs are returned when the office exists.
+     */
     @Test
     void shouldReturnDriverDtos_whenOfficeExists() {
         Integer officeId = 1;
@@ -136,6 +149,10 @@ public class AgencyOfficeServiceTest {
         verify(driverRepository).findByOffice_OfficeId(officeId);
     }
 
+    /**
+     * Verifies that ResourceNotFoundException is thrown
+     * when office does not exist while fetching drivers.
+     */
     @Test
     void shouldThrowException_whenOfficeNotFound_forDrivers() {
         Integer officeId = 18729;
@@ -155,6 +172,9 @@ public class AgencyOfficeServiceTest {
 
     // -------------------- HELPER METHOD --------------------
 
+    /**
+     * Creates a mock AgencyOffice entity with the given ID.
+     */
     private AgencyOffice createOffice(Integer officeId) {
         AgencyOffice office = new AgencyOffice();
         office.setOfficeId(officeId);
