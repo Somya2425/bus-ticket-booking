@@ -26,7 +26,7 @@ import java.util.List;
  * @author Mahi
  */
 @RestController
-@RequestMapping("api/agency/")
+@RequestMapping("api/agency")
 @Validated
 public class AgencyController {
     /**
