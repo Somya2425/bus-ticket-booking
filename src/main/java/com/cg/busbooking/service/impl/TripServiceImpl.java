@@ -5,7 +5,6 @@ import com.cg.busbooking.dto.response.AvailableSeatsResponseDto;
 import com.cg.busbooking.dto.response.TripResponseDto;
 import com.cg.busbooking.entity.Trip;
 import com.cg.busbooking.exception.ResourceNotFoundException;
-import com.cg.busbooking.repository.RouteRepository;
 import com.cg.busbooking.repository.TripRepository;
 import com.cg.busbooking.service.TripService;
 import lombok.RequiredArgsConstructor;
@@ -32,9 +31,16 @@ public class TripServiceImpl implements TripService {
     @Override
     public List<TripResponseDto> getTripBySourceAndDestination(String source, String destination) {
 
-       List<Trip> trips = tripRepository.findByRoute_FromCityIgnoreCaseAndRoute_ToCityIgnoreCase(source, destination);
-       return trips.stream()
-               .map(trip -> modelMapper.map(trip,TripResponseDto.class))
-               .toList();
+        List<Trip> trips = tripRepository.findByRoute_FromCityIgnoreCaseAndRoute_ToCityIgnoreCase(source, destination);
+
+        if (trips.isEmpty()) {
+            throw new ResourceNotFoundException(
+                    String.format(TripConstants.TRIPS_NOT_FOUND_BETWEEN, source, destination)
+            );
+        }
+
+        return trips.stream()
+                .map(trip -> modelMapper.map(trip, TripResponseDto.class))
+                .toList();
     }
 }
