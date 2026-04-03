@@ -74,7 +74,8 @@ public class CustomerController {
             @NotNull(message = "Customer Id cannot be null")
             @Min(value = 0,message = "Customer Id must be positive")
             @Max(value = Integer.MAX_VALUE,message = "Customer Id must be less than "+ Integer.MAX_VALUE)
-            Integer customerId) {
+            Integer customerId
+    ) {
 
         return ResponseEntity.ok(
                 customerService.getCustomerBookings(customerId)

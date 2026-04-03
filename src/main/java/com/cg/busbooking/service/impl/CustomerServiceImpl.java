@@ -54,6 +54,9 @@ public class CustomerServiceImpl implements CustomerService {
         return bookings.stream().map(b -> {
             BookingResponseDto dto = new BookingResponseDto();
             dto.setBookingId(b.getBookingId());
+            if (b.getTrip() != null) {
+                dto.setTripId(b.getTrip().getTripId());
+            }
             dto.setSeatNumber(b.getSeatNumber());
             if (b.getStatus() != null) {
                 dto.setStatus(b.getStatus().toString());

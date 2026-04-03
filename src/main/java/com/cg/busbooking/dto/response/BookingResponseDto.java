@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class BookingResponseDto {
     private Integer bookingId;
+    private Integer tripId;
     private Integer seatNumber;
     private String status;
 }
