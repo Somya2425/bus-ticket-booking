@@ -6,9 +6,15 @@ import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * Configuration class for customizing
+ * ModelMapper mappings between entities and DTOs.
+ */
 @Configuration
 public class ModelMapperConfig {
 
+    /** Provides a customized ModelMapper bean
+     *  with mappings for Trip to TripResponseDto. */
     @Bean
     public ModelMapper modelMapper() {
         ModelMapper modelMapper = new ModelMapper();
