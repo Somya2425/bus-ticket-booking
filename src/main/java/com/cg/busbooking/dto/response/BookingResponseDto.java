@@ -18,6 +18,7 @@ public class BookingResponseDto {
      * Unique identifier of the booking.
      */
     private Integer bookingId;
+    private Integer tripId;
 
     /**
      * Seat number allocated for the booking.
