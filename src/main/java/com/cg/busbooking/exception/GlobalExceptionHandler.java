@@ -4,6 +4,7 @@ import com.cg.busbooking.dto.response.ErrorResponseDto;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
+import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -16,12 +17,28 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import java.time.LocalDateTime;
 import java.util.*;
 
+/**
+ * Global exception handler for the application.
+ * Handles all exceptions thrown by controllers and returns
+ * a structured error response to the client.
+ */
 @RestControllerAdvice
+@NoArgsConstructor
 public class GlobalExceptionHandler {
 
+    /**
+     * Logger to maintain the chain of logs
+     */
     private static final Logger log =
             LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
+    /**
+     * @param path    request URI
+     * @param message error message
+     * @param errors  additional error details
+     * @param status  HTTP status
+     * @return ResponseEntity containing ErrorResponseDto
+     */
     private ResponseEntity<ErrorResponseDto> buildErrorResponse(
             String path,
             String message,
@@ -40,6 +57,9 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(error, status);
     }
 
+    /**
+     * Handles resource not found exceptions.
+     */
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ErrorResponseDto> handleResourceNotFoundException(
             ResourceNotFoundException ex,
@@ -48,6 +68,9 @@ public class GlobalExceptionHandler {
         return buildErrorResponse(request.getRequestURI(), ex.getMessage(), Collections.emptyMap(), HttpStatus.NOT_FOUND);
     }
 
+    /**
+     * Handles route not found exceptions.
+     */
     @ExceptionHandler(RouteNotFoundException.class)
     public ResponseEntity<ErrorResponseDto> handleRouteNotFound(
             RouteNotFoundException ex,
@@ -56,6 +79,9 @@ public class GlobalExceptionHandler {
         return buildErrorResponse(request.getRequestURI(), ex.getMessage(), Collections.emptyMap(), HttpStatus.NOT_FOUND);
     }
 
+    /**
+     * Handles invalid route exceptions.
+     */
     @ExceptionHandler(InvalidRouteException.class)
     public ResponseEntity<ErrorResponseDto> handleInvalidRoute(
             InvalidRouteException ex,
@@ -64,10 +90,16 @@ public class GlobalExceptionHandler {
         return buildErrorResponse(request.getRequestURI(), ex.getMessage(), Collections.emptyMap(), HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * Extracts field name from validation path.
+     */
     private String extractFieldName(String path) {
         return path.substring(path.lastIndexOf(".") + 1);
     }
 
+    /**
+     * Handles validation errors (e.g., @Min, @NotNull).
+     */
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<ErrorResponseDto> handleValidation(
             ConstraintViolationException ex,
@@ -84,6 +116,9 @@ public class GlobalExceptionHandler {
         return buildErrorResponse(request.getRequestURI(), "Validation failed", errors, HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * Handles missing request parameters.
+     */
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public ResponseEntity<ErrorResponseDto> handleMissingParams(
             MissingServletRequestParameterException ex,
@@ -96,6 +131,9 @@ public class GlobalExceptionHandler {
         return buildErrorResponse(request.getRequestURI(), message, Collections.emptyMap(), HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * Handles invalid parameter type errors.
+     */
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<ErrorResponseDto> handleTypeMismatch(
             MethodArgumentTypeMismatchException ex,
@@ -109,6 +147,9 @@ public class GlobalExceptionHandler {
         return buildErrorResponse(request.getRequestURI(), message, Collections.emptyMap(), HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * Handles incorrect endpoint access.
+     */
     @ExceptionHandler(org.springframework.web.servlet.resource.NoResourceFoundException.class)
     public ResponseEntity<ErrorResponseDto> handleNoResourceFound(Exception ex, HttpServletRequest request) {
 
@@ -117,6 +158,9 @@ public class GlobalExceptionHandler {
         return buildErrorResponse(request.getRequestURI(), "Endpoint not found.", Collections.emptyMap(), HttpStatus.NOT_FOUND);
     }
 
+    /**
+     * Handles all uncaught exceptions.
+     */
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponseDto> handleGlobalException(
             Exception ex,

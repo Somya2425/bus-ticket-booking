@@ -1,5 +1,19 @@
 package com.cg.busbooking.enums;
 
+/**
+ * Enum representing the status of a payment in the system.
+ * This enum is used to indicate whether a payment transaction
+ * was successful or failed.
+ */
 public enum PaymentStatus {
-    Success, Failed
+
+    /**
+     * Indicates that the payment was completed successfully.
+     */
+    Success,
+
+    /**
+     * Indicates that the payment transaction failed.
+     */
+    Failed
 }
