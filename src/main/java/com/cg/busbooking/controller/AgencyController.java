@@ -12,6 +12,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -48,6 +49,21 @@ public class AgencyController {
         this.agencyService = agencyService;
     }
 
+    private ResponseEntity<?> checkAccess(Integer agencyId, String role, Integer userAgencyId) {
+
+        if (role.equals("CUSTOMER")) {
+            return ResponseEntity.status(403).body("Customers are not allowed");
+        }
+
+        if (role.equals("AGENCY")) {
+            if (userAgencyId == null || !userAgencyId.equals(agencyId)) {
+                return ResponseEntity.status(403)
+                        .body("Agency can access only their own data");
+            }
+        }
+        return null;
+    }
+
     /**
      * Fetch all customers associated with a given agency.
      * @param agencyId ID of the agency (must be positive and non-null)
@@ -59,7 +75,11 @@ public class AgencyController {
               @NotNull(message = AgencyConstants.AGENCY_ID_NULL)
               @Min(value = 0,message = AgencyConstants.AGENCY_ID_POSITIVE)
               @Max(value = Integer.MAX_VALUE,message = AgencyConstants.AGENCY_ID_MAX)
-              Integer agencyId) {
+              Integer agencyId,
+              @RequestHeader("role") String role,
+              @RequestHeader(value = "agencyId", required = false) Integer userAgencyId) {
+        ResponseEntity access = checkAccess(agencyId, role, userAgencyId);
+        if (access != null) return access;
         final List<CustomerResponseDto> customers = agencyService.getCustomersByAgencyId(agencyId)
                 .stream()
                 .map(c -> modelMapper.map(c, CustomerResponseDto.class))
@@ -78,7 +98,11 @@ public class AgencyController {
             @NotNull(message = AgencyConstants.AGENCY_ID_NULL)
             @Min(value = 0,message = AgencyConstants.AGENCY_ID_POSITIVE)
             @Max(value = Integer.MAX_VALUE,message = AgencyConstants.AGENCY_ID_MAX+ Integer.MAX_VALUE)
-            Integer agencyId) {
+            Integer agencyId,
+            @RequestHeader("role") String role,
+            @RequestHeader(value = "agencyId", required = false) Integer userAgencyId) {
+        ResponseEntity access = checkAccess(agencyId, role, userAgencyId);
+        if (access != null) return access;
         final List<AgencyOfficeResponseDto> offices=agencyService.getOfficesByAgencyId(agencyId)
                 .stream()
                 .map(o->modelMapper.map(o,AgencyOfficeResponseDto.class))
@@ -101,7 +125,13 @@ public class AgencyController {
            Integer agencyId,
            @RequestParam
            @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-           LocalDateTime tripDate) {
+           LocalDateTime tripDate,
+           @RequestHeader("role") String role,
+           @RequestHeader(value = "agencyId", required = false) Integer userAgencyId) {
+
+        ResponseEntity access = checkAccess(agencyId, role, userAgencyId);
+        if (access != null) return access;
+
         final List<BusResponseDto> buses=agencyService.getBusByAgencyIdAndDate(agencyId,tripDate)
                 .stream()
                 .map(bus-> modelMapper.map(bus,BusResponseDto.class))
@@ -120,7 +150,12 @@ public class AgencyController {
            @NotNull(message = AgencyConstants.AGENCY_ID_NULL)
            @Min(value = 0,message = AgencyConstants.AGENCY_ID_POSITIVE)
            @Max(value = Integer.MAX_VALUE,message = AgencyConstants.AGENCY_ID_MAX+ Integer.MAX_VALUE)
-           Integer agencyId) {
+           Integer agencyId,
+           @RequestHeader("role") String role) {
+
+        if (!role.equals("ADMIN")) {
+            return new ResponseEntity("Only ADMIN can access revenue", HttpStatusCode.valueOf(403));
+        }
         return new ResponseEntity<>(agencyService.getAgencyRevenueByAgencyId(agencyId), HttpStatus.OK);
     }
 

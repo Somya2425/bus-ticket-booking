@@ -39,6 +39,4 @@ public class TripController {
             .body(new ApiResponseDto(TripConstants.STATUS_200,TripConstants.TRIP_FOUND,tripResponseDto));
   }
 
-
-
 }
