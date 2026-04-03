@@ -58,7 +58,7 @@ public class RouteController {
             @NotBlank(message = "City name cannot be blank.")
             final String toCity) {
 
-        final List<RouteResponseDto> routes = routeService.getRouteBetweenCities(fromCity, toCity)
+        List<RouteResponseDto> routes = routeService.getRouteBetweenCities(fromCity, toCity)
                 .stream()
                 .map(r -> modelMapper.map(r, RouteResponseDto.class))
                 .toList();
@@ -72,7 +72,11 @@ public class RouteController {
      */
 
     @GetMapping("/popular")
-    public ResponseEntity<List<Route>> getMostPopularRoute() {
-        return ResponseEntity.ok(routeService.getMostPopularRoute());
+    public ResponseEntity<List<RouteResponseDto>> getMostPopularRoute() {
+        List<RouteResponseDto> routes = routeService.getMostPopularRoute()
+                .stream()
+                .map(r -> modelMapper.map(r, RouteResponseDto.class))
+                .toList();
+        return new ResponseEntity<>(routes, HttpStatus.OK);
     }
 }

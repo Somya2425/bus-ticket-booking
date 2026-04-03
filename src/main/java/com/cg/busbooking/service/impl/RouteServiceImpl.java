@@ -64,7 +64,7 @@ public class RouteServiceImpl implements RouteService {
     public List<Route> getMostPopularRoute() {
         List<Route> routes = bookingRepository.findMostPopularRoutes();
         if (routes.isEmpty()) {
-            throw new ResourceNotFoundException(RouteConstants.BOOKINGS_NOT_FOUND);
+            throw new RouteNotFoundException(RouteConstants.BOOKINGS_NOT_FOUND);
         }
         return routes;
     }
