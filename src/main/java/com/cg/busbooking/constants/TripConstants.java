@@ -1,42 +1,63 @@
 package com.cg.busbooking.constants;
 
 /**
- * Contains constant values related to Trip operations.
+ * Utility class that holds all constant values used in Trip-related APIs.
  *
- * This class centralizes all static messages and status codes used in
- * Trip-related functionalities to maintain consistency across the application.
+ * Purpose:
+ * - Avoid hardcoding values across the application
+ * - Ensure consistency in API responses and messages
+ * - Improve maintainability and readability
+ *
+ * Design:
+ * - Declared as final to prevent inheritance
+ * - Contains only static constants
+ * - Has a private constructor to prevent instantiation
  */
-public class TripConstants {
+public final class TripConstants {
 
     /**
-     * Error message used when a Trip is not found for a given trip ID.
+     * Private constructor to prevent instantiation of this utility class.
      *
-     * Usage:
-     * Append the trip ID to this message.
-     * Example: "Trip not found with id 101"
+     * Throws:
+     * UnsupportedOperationException - if an attempt is made to instantiate this class
      */
-    public static final String TRIP_NOT_FOUND = "Trip not found with id";
+    private TripConstants() {
+        throw new UnsupportedOperationException(
+                "This is a constants class and cannot be instantiated"
+        );
+    }
 
     /**
-     * Represents HTTP status code 200 (OK).
+     * Error message returned when a trip is not found for a given ID.
      *
-     * Used to indicate successful operations.
+     * Note: Can be appended with tripId for more clarity.
+     * Example: "Trip not found with id 1"
+     */
+    public static final String TRIP_NOT_FOUND = "Trip not found with id %d";
+    /**
+     * Standard success status code used in API responses.
+     *
+     * Note: Stored as String to match ApiResponseDto structure.
      */
     public static final String STATUS_200 = "200";
 
     /**
-     * Message used when a Trip is successfully found.
+     * Success message returned when trip data is fetched successfully.
      */
     public static final String TRIP_FOUND = "Trip Found";
 
     /**
-     * Message used when available seats are successfully retrieved.
-     */
-    public static final String SEATS_FOUND = "Available seats fetched successfully";
-
-    /**
-     * Error message used when no trips are found between two locations.
+     * Error message template when no trips are found between source and destination.
      *
+     * Placeholders:
+     * - %s → source city
+     * - %s → destination city
      */
     public static final String TRIPS_NOT_FOUND_BETWEEN = "No trips found from '%s' to '%s'";
+
+    /**
+     * Success message returned when available seats are fetched successfully.
+     */
+    public static final String SEATS_FOUND =
+            "Available seats fetched successfully";
 }
