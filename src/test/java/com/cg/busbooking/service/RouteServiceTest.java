@@ -108,7 +108,7 @@ class RouteServiceTest {
     @Test
     void testGetMostPopularRoute_noRoutesFound() {
         when(bookingRepository.findMostPopularRoutes()).thenReturn(Collections.emptyList());
-        assertThrows(ResourceNotFoundException.class, () -> routeService.getMostPopularRoute());
+        assertThrows(RouteNotFoundException.class, () -> routeService.getMostPopularRoute());
         verify(bookingRepository).findMostPopularRoutes();
     }
 }
